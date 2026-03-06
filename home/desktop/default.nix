@@ -60,4 +60,14 @@ in
     iconTheme = gtkIconTheme;
     cursorTheme = gtkCursorTheme;
   };
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-gtk
+    ];
+    config."niri" = {
+      default = [ "gtk" ];
+    };
+  };
 }
