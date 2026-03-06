@@ -12,6 +12,8 @@
     ./git
     ./helix
     ./i18n
+    ./neovim
+    ./util
     ./zsh
   ];
 }

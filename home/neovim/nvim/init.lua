@@ -1,5 +1,33 @@
 require("lazy").setup({
   {
+    "saghen/blink.cmp",
+    dependencies = { "L3MON4D3/LuaSnip" },
+    opts_extend = { "sources.default" },
+    opts = {
+      sources = {
+        default = { "lsp", "path", "snippets", "buffer" },
+      },
+      fuzzy = {
+        implementation = "rust",
+        prebuilt_binaris = { download = false },
+      },
+      keymap = {
+        preset = "default",
+      },
+      completion = {
+        documentation = {
+          auto_show = true,
+        },
+      },
+      appearance = {
+        nerd_font_variant = "UDEV Gothic 35NF",
+      },
+      snippets = {
+        preset = "luasnip",
+      },
+    },
+  },
+  {
     "lewis6991/gitsigns.nvim",
     event = "VeryLazy",
     opts = {

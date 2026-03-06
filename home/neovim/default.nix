@@ -2,23 +2,24 @@
 let
   mkPluginsDir =
     let
-      drv2LinkFarmEntry = drv: {
+      drv2linkFarmEntry = drv: {
         name = "${lib.getName drv}";
         path = drv;
       };
     in
     plugins: pkgs.linkFarm "plugins-dir" (
-      builtins.map drv2LinkFarmEntry plugins
+      builtins.map drv2linkFarmEntry plugins
     );
   plugins = with pkgs.vimPlugins; [
+    blink-cmp
     cmp-buffer
     cmp-nvim-lsp
-    cmp-nvim-signature-help
+    cmp-nvim-lsp-signature-help
     cmp-path
     gitsigns-nvim
     lualine-nvim
+    luasnip
     nvim-autopairs
-    nvim-cmp
     nvim-lspconfig
     nvim-treesitter
     oil-nvim
@@ -42,10 +43,10 @@ in
       (builtins.readFile ./nvim/init.lua);
   };
 
-  home.file = {
-    "${config.xdg.configHome}/nvim" = {
-      source = ./nvim;
-      resursive = true;
-    };
-  };
+  # home.file = {
+  #   "${config.xdg.configHome}/nvim" = {
+  #     source = ./nvim;
+  #     recursive = true;
+  #   };
+  # };
 }
