@@ -53,6 +53,7 @@ abbreviations=(
   "push" "git push"
   "ed"   "echo 'use flake path:.' > .envrc && direnv allow"
   "x"    "helix"
+  "n"    "nvim ."
 )
 function expand_abbreviation() {
   local MATCH
