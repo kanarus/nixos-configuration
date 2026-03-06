@@ -3,7 +3,7 @@ let
   mkPluginsDir =
     let
       drv2linkFarmEntry = drv: {
-        name = "${lib.getName drv}";
+        name = "${drv.pluginName or (lib.getName drv)}";
         path = drv;
       };
     in
@@ -18,7 +18,7 @@ let
     cmp-path
     gitsigns-nvim
     lualine-nvim
-    luasnip
+    (luasnip.overrideAttrs (_: { pluginName = "LuaSnip"; }))
     nvim-autopairs
     nvim-lspconfig
     nvim-treesitter

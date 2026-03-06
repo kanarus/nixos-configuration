@@ -71,7 +71,16 @@ require("lazy").setup({
   },
   {
     "neovim/nvim-lspconfig",
+    dependencies = { "saghen/blink.cmp" },
     event = { "BufNewFile", "BufReadPre" },
+    opts = {
+      lsnames = {
+        "nixd",
+        "lua-language-server",
+        "gopls",
+        "rust-analyzer"
+      }
+    },
     config = function()
       local on_attach = function(_, buf)
         local nmap = function(keys, fn, desc)
@@ -86,14 +95,9 @@ require("lazy").setup({
         nmap("gd", vim.lsp.buf.definition, "[G]oto Definition")
         nmap("K",  vim.lsp.buf.hover,      "hover documentation")
       end
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      local capabilities = require("blink.cmp").get_lsp_capabilities()
       local lspconfig = require("lspconfig")
-      for _, lsname in ipairs({
-        "nixd",
-        "lua-language-server",
-        "gopls",
-        "rust-analyzer"
-      }) do
+      for _, lsname in ipairs(opts.lsnames) do
         lspconfig[lsname].setup({
           on_attach = on_attach,
           capabilities = capabilities
