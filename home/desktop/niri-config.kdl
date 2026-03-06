@@ -36,6 +36,8 @@ spawn-at-startup "waybar"
 spawn-at-startup "swaybg" "-i" "/home/kanarus/.local/share/wallpaper/default.png" "-m" "fill"
 
 binds {
+	Print            { screenshot-window; }
+	Ctrl+Print       { screenshot; }
 	Mod+Q            { close-window; }
 	Mod+Left         { focus-column-left; }
 	Mod+Right        { focus-column-right; }
