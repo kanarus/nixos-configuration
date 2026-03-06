@@ -1,3 +1,24 @@
+vim.wo.number = true
+vim.wo.signcolumn = "yes"
+
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
+vim.opt.expandtab = true
+vim.opt.smarttab = true
+vim.opt.autoindent = true
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
+
+vim.o.clipboard = "unnamedplus"
+vim.o.completeopt = "menuone,noselect"
+vim.o.ignorecase = true
+vim.o.smartcase = true
+vim.o.termguicolors = true
+vim.o.hlsearch = true
+vim.o.confirm = true
+
 require("lazy").setup({
   {
     "saghen/blink.cmp",
@@ -5,14 +26,29 @@ require("lazy").setup({
     opts_extend = { "sources.default" },
     opts = {
       sources = {
-        default = { "lsp", "path", "snippets", "buffer" },
+        default = function()
+          local sources = { "path", "snippets" }
+          if #(vim.lsp.get_clients({ bufnr = 0 })) > 0 then
+		  print("[blink] lsp client detected: " .. vim.lsp.get_clients({ bufnr = 0 })[1].name)
+	          table.insert(sources, "lsp")
+	        else
+	          table.insert(sources, "buffer")
+	        end
+	        return sources
+   	    end,
+	    
       },
       fuzzy = {
         implementation = "rust",
-        prebuilt_binaris = { download = false },
+        prebuilt_binaries = { download = false },
       },
       keymap = {
-        preset = "default",
+        preset = "none",
+	      ["<Tab>"]   = { "select_next", "fallback" },
+	      ["<C-Tab>"] = { "select_prev", "fallback" },
+	      ["<CR>"]    = { "accept", "fallback" },
+	      ["<Down>"]  = { "scroll_documentation_up", "fallback" },
+	      ["<Up>"]    = { "scroll_documentation_down", "fallback" }, 
       },
       completion = {
         documentation = {
@@ -73,14 +109,6 @@ require("lazy").setup({
     "neovim/nvim-lspconfig",
     dependencies = { "saghen/blink.cmp" },
     event = { "BufNewFile", "BufReadPre" },
-    opts = {
-      lsnames = {
-        "nixd",
-        "lua-language-server",
-        "gopls",
-        "rust-analyzer"
-      }
-    },
     config = function()
       local on_attach = function(_, buf)
         local nmap = function(keys, fn, desc)
@@ -91,13 +119,19 @@ require("lazy").setup({
             { buffer = buf, desc = "LSP: " .. desc }
           )
         end
-        nmap("rn", vim.lsp.buf.rename,     "[R]e[n]ame")
-        nmap("gd", vim.lsp.buf.definition, "[G]oto Definition")
-        nmap("K",  vim.lsp.buf.hover,      "hover documentation")
+	nmap("D",  vim.diagnostic.open_float, "open floating diagnostic message")
+        nmap("rn", vim.lsp.buf.rename,        "[R]e[n]ame")
+        nmap("gd", vim.lsp.buf.definition,    "[G]oto Definition")
+        nmap("K",  vim.lsp.buf.hover,         "hover documentation")
       end
       local capabilities = require("blink.cmp").get_lsp_capabilities()
       local lspconfig = require("lspconfig")
-      for _, lsname in ipairs(opts.lsnames) do
+      for _, lsname in ipairs({
+        "nixd",
+        "lua_ls",
+        "gopls",
+        "rust_analyzer"
+      }) do
         lspconfig[lsname].setup({
           on_attach = on_attach,
           capabilities = capabilities
@@ -107,6 +141,7 @@ require("lazy").setup({
   },
   {
     "nvim-treesitter/nvim-treesitter",
+    lazy = false,
     opts = function(_, opts)
       opts.ensure_installed = {}
     end,
