@@ -64,10 +64,10 @@ in
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
-      kdePackages.xdg-desktop-portal-kde
+      xdg-desktop-portal-gnome
     ];
     config."niri" = {
-      default = [ "kde" ];
+      default = [ "gnome" ];
     };
   };
 }
