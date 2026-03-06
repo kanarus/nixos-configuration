@@ -1,8 +1,15 @@
 setopt INTERACTIVE_COMMENTS
 
+# handle `/` as a word segment
+WORDCHARS=${WORDCHARS//\//}
+
 # enable Ctrl-{left, right} to move by words
-bindkey ";5C" forward-word
-bindkey ";5D" backward-word
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
+
+# Ctrl-{A, E} for move to {head, tail} of line
+bindkey "^A" beginning-of-line
+bindkey "^E" end-of-line
 
 # enable {up, down} to complete only with history matching current input & move cursor to end
 bindkey "^[OA" history-beginning-search-backward
