@@ -8,7 +8,7 @@ let
       };
     in
     plugins: pkgs.linkFarm "plugins-dir" (
-      builtins.map drv2linkFarmEntry plugins
+      map drv2linkFarmEntry plugins
     );
   plugins = with pkgs.vimPlugins; [
     blink-cmp
@@ -30,6 +30,14 @@ let
     gopls
     rust-analyzer
   ];
+  nvimTreesitter = pkgs.vimPlugins.nvim-treesitter.withPlugins (
+    treesitterPlugins: with treesitterPlugins; [
+      nix
+      lua
+      rust
+      go
+    ]
+  );
 in
 {
   programs.neovim = {
@@ -43,10 +51,15 @@ in
       (builtins.readFile ./nvim/init.lua);
   };
 
-  # home.file = {
-  #   "${config.xdg.configHome}/nvim" = {
-  #     source = ./nvim;
-  #     recursive = true;
-  #   };
-  # };
+  home.file =
+    let
+      nvimTreesitterDependencies = pkgs.symlinkJoin {
+        name = "nvim-treesitter-dependencies";
+        paths = nvimTreesitter.dependencies;
+      };
+    in
+    {
+      "${config.xdg.dataHome}/nvim/site/parser".source = "${nvimTreesitterDependencies}/parser";
+      "${config.xdg.dataHome}/nvim/site/queries".source = "${nvimTreesitterDependencies}/queries";
+    };
 }
