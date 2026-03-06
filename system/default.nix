@@ -59,7 +59,6 @@
   };
 
   fonts = {
-    fontconfig.enable = true;
     packages = with pkgs; [
       monaspace
       font-awesome
@@ -71,6 +70,15 @@
       udev-gothic
       udev-gothic-nf
     ];
+    fontconfig = {
+      enable = true;
+      defaultFonts = {
+        serif = [ "Noto Serif" ];
+        sansSerif = [ "Noto Sans" ];
+        monospace = [ "UDEV Gothic 35NF" ];
+        emoji = [ "Noto Color Emoji" ];
+      };
+    };
   };
 
   # Configure network proxy if necessary

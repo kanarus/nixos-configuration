@@ -54,7 +54,7 @@ in
 
   gtk = {
     enable = true;
-    font.name = "UDEV Gothic 35NF";
+    font.name = "Noto Sans CJK JP";
     colorScheme = "dark";
     theme = gtkTheme;
     iconTheme = gtkIconTheme;
