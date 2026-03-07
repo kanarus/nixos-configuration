@@ -36,7 +36,6 @@ require("lazy").setup({
 	        end
 	        return sources
    	    end,
-	    
       },
       fuzzy = {
         implementation = "rust",
@@ -48,7 +47,7 @@ require("lazy").setup({
 	      ["<C-Tab>"] = { "select_prev", "fallback" },
 	      ["<CR>"]    = { "accept", "fallback" },
 	      ["<Down>"]  = { "scroll_documentation_up", "fallback" },
-	      ["<Up>"]    = { "scroll_documentation_down", "fallback" }, 
+	      ["<Up>"]    = { "scroll_documentation_down", "fallback" },
       },
       completion = {
         documentation = {
@@ -152,6 +151,14 @@ require("lazy").setup({
     opts = {
       default_file_explorer = true,
     }
+  },
+  {
+    "ramokus/mellifluous.nvim",
+    lazy = false,
+    config = function()
+      require("mellifluous").setup({})
+      vim.cmd("colorscheme mellifluous")
+    end,
   },
 }, {
   lockfile = "", -- don't generate lazy-lock.json, leave the version control to nix
