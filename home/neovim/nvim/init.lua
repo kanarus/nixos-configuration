@@ -101,7 +101,15 @@ require("lazy").setup({
       options = {
         icons_enabled = true,
         globalstatus = true,
-      }
+      },
+      sections = {
+        lualine_a = { "mode" },
+        lualine_b = { "branch", "diff", "diagnostics" },
+        lualine_c = { "filename" },
+        lualine_x = { "lsp_status" },
+        lualine_y = { "progress" },
+        lualine_z = { "location" },
+      },
     }
   },
   {
@@ -116,22 +124,24 @@ require("lazy").setup({
     dependencies = { "saghen/blink.cmp" },
     event = { "BufNewFile", "BufReadPre" },
     config = function()
-      local on_attach = function(_, buf)
-        local nmap = function(keys, fn, desc)
-          vim.keymap.set(
-            "n",
-            keys,
-            fn,
-            { buffer = buf, desc = "LSP: " .. desc }
-          )
+      vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function(args)
+          local nmap = function(keys, fn, desc)
+            vim.keymap.set(
+              "n",
+              keys,
+              fn,
+              { buffer = args.buf, desc = "LSP: " .. desc }
+            )
+          end
+          nmap("D",  vim.diagnostic.open_float, "open floating diagnostic message")
+          nmap("rn", vim.lsp.buf.rename,        "[R]e[n]ame")
+          nmap("gd", vim.lsp.buf.definition,    "[G]oto Definition")
         end
-    	nmap("D",  vim.diagnostic.open_float, "open floating diagnostic message")
-        nmap("rn", vim.lsp.buf.rename,        "[R]e[n]ame")
-        nmap("gd", vim.lsp.buf.definition,    "[G]oto Definition")
-        nmap("K",  vim.lsp.buf.hover,         "hover documentation")
-      end
-      local capabilities = require("blink.cmp").get_lsp_capabilities()
-      local lspconfig = require("lspconfig")
+      })
+      vim.lsp.config("*", {
+        capabilities = require("blink.cmp").get_lsp_capabilities(),
+      })
       for _, lspconfigname in ipairs({
         "nixd",
         "lua_ls",
@@ -139,10 +149,7 @@ require("lazy").setup({
         "rust_analyzer",
         "bashls",
       }) do
-        lspconfig[lspconfigname].setup({
-          on_attach = on_attach,
-          capabilities = capabilities
-        })
+        vim.lsp.enable(lspconfigname);
       end
     end
   },
@@ -161,10 +168,21 @@ require("lazy").setup({
   },
   {
     "stevearc/oil.nvim",
+    dependencies = { "nvim-mini/mini.icons" },
     lazy = false,
-    opts = {
-      default_file_explorer = true,
-    }
+    config = function()
+      require("mini.icons").setup({})
+      require("oil").setup({
+        view_options = {
+          -- show hidden files/directories, while hide `..`
+          show_hidden = true,
+          is_always_hidden = function(name, _)
+            return name == ".."
+          end
+        },
+      })
+      vim.keymap.set("n", "o", "<CMD>Oil<CR>", { desc = ":[O]il" })
+    end
   },
   {
     "ramokus/mellifluous.nvim",

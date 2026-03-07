@@ -33,6 +33,7 @@ let
     lualine-nvim
     (luasnip.overrideAttrs (_: { pluginName = "LuaSnip"; }))
     mellifluous-nvim
+    mini-icons
     nvim-autopairs
     nvim-lspconfig
     nvim-treesitter
