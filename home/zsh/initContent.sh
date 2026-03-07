@@ -24,7 +24,7 @@ zle -N self-insert self_insert_with_log
 # prompt style
 function git_status_color() {
   git_status_output=$(git status --short)
-  if [ -z $git_status_output ]; then
+  if [ -z "$git_status_output" ]; then
     echo '157'
   else
     echo '197'
@@ -35,7 +35,7 @@ function maybe_git_branch() {
   if [[ $git_output =~ '^fatal: ' ]]; then
     echo ''
   else
-    echo '(%F{'$(git_status_color)'}'$git_output'%F{153})'
+    echo '(%F{'"$(git_status_color)"'}'"$git_output"'%F{153})'
   fi
 }
 setopt PROMPT_SUBST
