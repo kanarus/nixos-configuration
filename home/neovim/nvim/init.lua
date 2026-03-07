@@ -118,7 +118,7 @@ require("lazy").setup({
             { buffer = buf, desc = "LSP: " .. desc }
           )
         end
-	nmap("D",  vim.diagnostic.open_float, "open floating diagnostic message")
+    	nmap("D",  vim.diagnostic.open_float, "open floating diagnostic message")
         nmap("rn", vim.lsp.buf.rename,        "[R]e[n]ame")
         nmap("gd", vim.lsp.buf.definition,    "[G]oto Definition")
         nmap("K",  vim.lsp.buf.hover,         "hover documentation")
@@ -162,6 +162,9 @@ require("lazy").setup({
   },
 }, {
   lockfile = "", -- don't generate lazy-lock.json, leave the version control to nix
+  install = {
+    missing = false, -- skip auso-installing plugins on startup
+  },
   defaults = {
     lazy = true,
   },

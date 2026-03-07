@@ -54,7 +54,7 @@ function merged () {
 # abbreviations
 typeset -Ag abbreviations
 abbreviations=(
-  "ns"   "sudo nixos-rebuild switch --flake ~/nixos-config"
+  "ns"   "sudo nixos-rebuild switch --flake ~/nixos-configuration"
   "com"  "git add . && git commit -m"
   "po"   "git push origin"
   "push" "git push"
