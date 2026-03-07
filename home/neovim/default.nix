@@ -12,7 +12,7 @@ let
   );
 in
 let
-  mellifluous = (buildVimPlugin {
+  mellifluous-nvim = (buildVimPlugin {
     name = "mellifluous.nvim";
     src = pkgs.fetchFromGitHub {
       owner = "ramojus";
@@ -23,20 +23,6 @@ let
   });
 in
 let
-  lsps = with pkgs; [
-    nixd
-    lua-language-server
-    gopls
-    rust-analyzer
-  ];
-  nvimTreesitter = pkgs.vimPlugins.nvim-treesitter.withPlugins (
-    treesitterPlugins: with treesitterPlugins; [
-      nix
-      lua
-      rust
-      go
-    ]
-  );
   plugins = with pkgs.vimPlugins; [
     blink-cmp
     cmp-buffer
@@ -46,11 +32,23 @@ let
     gitsigns-nvim
     lualine-nvim
     (luasnip.overrideAttrs (_: { pluginName = "LuaSnip"; }))
+    mellifluous-nvim
     nvim-autopairs
     nvim-lspconfig
     nvim-treesitter
     oil-nvim
-    mellifluous
+  ];
+  lsps = with pkgs; [
+    nixd
+    lua-language-server
+    gopls
+    rust-analyzer
+  ];
+  treesitterPluginsSelector = tp: with tp; [
+    nix
+    lua
+    rust
+    go
   ];
 in
 {
@@ -70,9 +68,11 @@ in
   };
 
   home.file = let
-    nvimTreesitterDependencies = pkgs.symlinkJoin {
+    nvimTreesitterDependencies = pkgs.symlinkjoin {
       name = "nvim-treesitter-dependencies";
-      paths = nvimTreesitter.dependencies;
+      paths = (
+        pkgs.vimplugins.nvim-treesitter.withplugins treesitterPluginsSelector
+      ).dependencies;
     };
   in {
     "${config.xdg.dataHome}/nvim/site/parser".source = "${nvimTreesitterDependencies}/parser";
