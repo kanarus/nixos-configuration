@@ -10,6 +10,10 @@ vim.opt.autoindent = true
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
+vim.opt.wrap = false
+vim.opt.laststatus = 3
+vim.opt.cmdheight = 0
+vim.opt.showmode = false
 
 vim.o.clipboard = "unnamedplus"
 vim.o.completeopt = "menuone,noselect"
@@ -18,6 +22,9 @@ vim.o.smartcase = true
 vim.o.termguicolors = true
 vim.o.hlsearch = true
 vim.o.confirm = true
+vim.o.scrolloff = 8
+vim.o.sidescrolloff = 16
+vim.o.sidescroll = 1
 
 require("lazy").setup({
   {
@@ -29,12 +36,11 @@ require("lazy").setup({
         default = function()
           local sources = { "path", "snippets" }
           if #(vim.lsp.get_clients({ bufnr = 0 })) > 0 then
-		  print("[blink] lsp client detected: " .. vim.lsp.get_clients({ bufnr = 0 })[1].name)
-	          table.insert(sources, "lsp")
-	        else
-	          table.insert(sources, "buffer")
-	        end
-	        return sources
+            table.insert(sources, "lsp")
+          else
+            table.insert(sources, "buffer")
+          end
+          return sources
    	    end,
       },
       fuzzy = {
@@ -94,6 +100,7 @@ require("lazy").setup({
     opts = {
       options = {
         icons_enabled = true,
+        globalstatus = true,
       }
     }
   },
@@ -129,7 +136,7 @@ require("lazy").setup({
         "nixd",
         "lua_ls",
         "gopls",
-        "rust_analyzer"
+        "rust_analyzer",
       }) do
         lspconfig[lsname].setup({
           on_attach = on_attach,
@@ -141,8 +148,14 @@ require("lazy").setup({
   {
     "nvim-treesitter/nvim-treesitter",
     lazy = false,
-    opts = function(_, opts)
-      opts.ensure_installed = {}
+    config = function()
+      require("nvim-treesitter").setup()
+      vim.api.nvim_create_autocmd("FileType", {
+        group = vim.api.nvim_create_augroup("vim-treesitter-start", {}),
+        callback = function()
+          pcall(vim.treesitter.start)
+        end
+      })
     end,
   },
   {
@@ -155,10 +168,12 @@ require("lazy").setup({
   {
     "ramokus/mellifluous.nvim",
     lazy = false,
-    config = function()
-      require("mellifluous").setup({})
-      vim.cmd("colorscheme mellifluous")
-    end,
+    init = function() vim.cmd("colorscheme mellifluous") end,
+    opts = {
+      styles = {
+        comments = { italic = false },
+      },
+    },
   },
 }, {
   lockfile = "", -- don't generate lazy-lock.json, leave the version control to nix
@@ -169,7 +184,7 @@ require("lazy").setup({
     lazy = true,
   },
   dev = {
-    path = "{{pluginsDir}}", -- replaced by ~/nixos-config/home/neovim/default.nix
+    path = "{{pluginsDir}}", -- replaced by ~/nixos-configuration/home/neovim/default.nix
     patterns = { "." },
     fallback = false,
   },

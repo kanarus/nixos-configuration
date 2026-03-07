@@ -1,9 +1,9 @@
 # hide titlebar
 gtk-titlebar = false
 window-decoration = none
-# 12px-rounded by niri
-window-padding-x = 6
-window-padding-y = 6
+
+window-padding-x = 4
+window-padding-y = 4
 
 window-save-state = never
 resize-overlay = never
@@ -12,7 +12,7 @@ link-url = false
 shell-integration = none
 confirm-close-surface = false
 
-background = "#1c1917"
+background = "#1a1a1a"
 
 cursor-style = bar
 

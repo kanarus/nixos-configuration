@@ -49,6 +49,7 @@ let
     lua
     rust
     go
+    zsh
   ];
 in
 {
@@ -68,10 +69,10 @@ in
   };
 
   home.file = let
-    nvimTreesitterDependencies = pkgs.symlinkjoin {
+    nvimTreesitterDependencies = pkgs.symlinkJoin {
       name = "nvim-treesitter-dependencies";
       paths = (
-        pkgs.vimplugins.nvim-treesitter.withplugins treesitterPluginsSelector
+        pkgs.vimPlugins.nvim-treesitter.withPlugins treesitterPluginsSelector
       ).dependencies;
     };
   in {
