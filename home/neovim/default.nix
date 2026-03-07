@@ -43,13 +43,14 @@ let
     lua-language-server
     gopls
     rust-analyzer
+    bash-language-server
   ];
   treesitterPluginsSelector = tp: with tp; [
     nix
     lua
     rust
     go
-    zsh
+    bash
   ];
 in
 {

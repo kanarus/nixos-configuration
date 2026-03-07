@@ -132,13 +132,14 @@ require("lazy").setup({
       end
       local capabilities = require("blink.cmp").get_lsp_capabilities()
       local lspconfig = require("lspconfig")
-      for _, lsname in ipairs({
+      for _, lspconfigname in ipairs({
         "nixd",
         "lua_ls",
         "gopls",
         "rust_analyzer",
+        "bashls",
       }) do
-        lspconfig[lsname].setup({
+        lspconfig[lspconfigname].setup({
           on_attach = on_attach,
           capabilities = capabilities
         })
