@@ -6,7 +6,7 @@ let
   };
   buildVimPlugin = name-src: (
     (pkgs.vimUtils.buildVimPlugin name-src).overrideAttrs (_: {
-      # ignore the `vimplugin-` prefix set by `buildVimPlugin`
+      # ignore the `vimplugin-` prefix set by `pkgs.buildVimPlugin`
       pluginName = name-src.name;
     })
   );
