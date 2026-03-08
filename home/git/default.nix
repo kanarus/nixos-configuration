@@ -15,7 +15,7 @@
       user = {
         name = "kanarus";
         email = "mail@kanarus.dev";
-        signingKey = "5623D3EF85F1D635";
+        signingKey = "C0AB5BE695F851A4";
       };
       commit = {
         gpgSign = true;
