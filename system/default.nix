@@ -90,9 +90,17 @@
       default = {
         ids = [ "*" ];
         settings = {
-          main = {
-            capslock = "control";
+          "main" = {
+            capslock = "layer(control)";
           };
+          # "main" = {
+          #   capslock = "layer(capslock_layer)";
+          # };
+          # "capslock_layer" = {
+          #   space = "C-space";
+          #   tab = "C-tab";
+          #   S-tab = "C-S-tab";
+          # };
         };
       };
     };
