@@ -84,8 +84,19 @@
     };
   };
 
-  services.qemuGuest.enable = true;
-  # services.xserver.enable = true;
+  services.keyd = {
+    enable = true;
+    keyboards = {
+      default = {
+        ids = [ "*" ];
+        settings = {
+          main = {
+            capslock = "control";
+          };
+        };
+      };
+    };
+  };
 
   programs.zsh.enable = true;
   users.users.kanarus = {
