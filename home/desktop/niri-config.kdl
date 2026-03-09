@@ -10,10 +10,11 @@ input {
 	}
 }
 
-output "Red Hat, Inc. QEMU Monitor Unknown" {
-	focus-at-startup
-	scale 1
-	mode "1920x1080@60.000"
+output "LG Display 0x06ED Unknown" {
+    off
+}
+output "Pixio USA Pixio PXC277 0x00000001" {
+    focus-at-startup
 }
 
 window-rule {

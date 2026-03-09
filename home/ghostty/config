@@ -3,7 +3,7 @@ gtk-titlebar = false
 window-decoration = none
 
 window-padding-x = 4
-window-padding-y = 4
+window-padding-y = 5
 
 window-save-state = never
 resize-overlay = never
@@ -16,5 +16,5 @@ background = "#1a1a1a"
 
 cursor-style = bar
 
-font-size = 14
+font-size = 15
 font-family = "UDEV Gothic 35NF"

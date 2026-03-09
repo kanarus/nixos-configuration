@@ -2,7 +2,7 @@
   "height": 24,
   "modules-left": [],
   "modules-center": ["clock"],
-  "modules-right": ["tray", "network", "bluetooth", "pulseaudio", "idle_inhibitor", "battery", "custom/power"],
+  "modules-right": ["tray", "network", "bluetooth", "pulseaudio", "battery", "custom/power"],
   "clock": {
     "format": "{:%H:%M}",
     "tooltip-format": "<tt>      {:%b %Y}\n{calendar}</tt>",
@@ -15,22 +15,22 @@
       }
     }
   },
-  "idle_inhibitor": {
-    "format": "{icon}",
-    "format-icons": {
-      "activated": "",
-      "deactivated": "",
-    }
-  },
+  // "idle_inhibitor": {
+  //   "format": "{icon}",
+  //   "format-icons": {
+  //     "activated": "",
+  //     "deactivated": "",
+  //   }
+  // },
   "bluetooth": {
     "format-no-controller": "",
-    "format-disabled": "",
-    "format-off": "",
-    "format-on": "",
-    "format-connected": "",
+    "format-disabled": "",
+    "format-off": "",
+    "format-on": "",
+    "format-connected": "",
     "on-click": "blueman-manager",
     "tooltip-format": "{num_connections} devices connected\n{device_enumerate}",
-    "tooltip-format-enumerate-connected": "{device_alias} ({device_address_type})",
+    "tooltip-format-enumerate-connected": "{device_alias}",
   },
   "pulseaudio": {
     "on-click": "pavucontrol",
@@ -63,11 +63,15 @@
   },
   "battery": {
     "status": {
+      "full": 90,
+      "health": 70,
+      "half": 50,
       "warning": 30,
       "critical": 15,
     },
-    "format": "{capacity}%",
+    "format": "{icon}",
     "format-icons": ["", "", "", "", ""],
+    "tooltip-format": "{capacity}% ({time})",
   },
   "custom/power": {
     "format": "⏻",
