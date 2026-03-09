@@ -29,7 +29,7 @@
     "format-on": "",
     "format-connected": "",
     "on-click": "blueman-manager",
-    "tooltip-format-connected": "{device_enumerate}",
+    "tooltip-format": "{num_connections} devices connected\n{device_enumerate}",
     "tooltip-format-enumerate-connected": "{device_alias} ({device_address_type})",
   },
   "pulseaudio": {
