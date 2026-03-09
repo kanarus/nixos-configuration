@@ -2,7 +2,7 @@
   "height": 24,
   "modules-left": [],
   "modules-center": ["clock"],
-  "modules-right": ["tray", "network", "bluetooth", "pulseaudio", "battery", "custom/power"],
+  "modules-right": ["tray", "network", "bluetooth", "pulseaudio", "battery"],
   "clock": {
     "format": "{:%H:%M}",
     "tooltip-format": "<tt>      {:%b %Y}\n{calendar}</tt>",
@@ -71,18 +71,18 @@
     },
     "format": "{icon}",
     "format-icons": ["", "", "", "", ""],
-    "tooltip-format": "{capacity}% ({time})",
+    "tooltip-format": "{capacity}%",
   },
-  "custom/power": {
-    "format": "⏻",
-    "tooltip-format": "Power Menu",
-    "menu": "on-click",
-    "menu-file": "$HOME/.config/waybar/powermenu.xml",
-    "menu-actions": {
-      "shutdown": "shutdown",
-      "reboot": "reboot",
-      "suspend": "systemctl suspend",
-      "hibernate": "systemctl hybernate",
-    },
-  }
+  // "custom/power": {
+  //   "format": "⏻",
+  //   "tooltip-format": "Power Menu",
+  //   "menu": "on-click",
+  //   "menu-file": "$HOME/.config/waybar/powermenu.xml",
+  //   "menu-actions": {
+  //     "shutdown": "shutdown",
+  //     "reboot": "reboot",
+  //     "suspend": "systemctl suspend",
+  //     "hibernate": "systemctl hybernate",
+  //   },
+  // }
 }

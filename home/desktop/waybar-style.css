@@ -18,14 +18,14 @@ tooltip * {
 }
 
 widget box {
-    min-width: 22px;
+    min-width: 24px;
 }
 widget box:hover {
     background-color: rgba(100, 100, 100, 0.84);
 }
 widget label {
-    margin-right: 2px; /* compensates for the slight rightward shift of label characters */
-    min-width: 22px;
+    min-width: 24px;
+    font-family: 'Font Awesome 7 Free';
 }
 widget label:hover {
     background-color: rgba(100, 100, 100, 0.84);
