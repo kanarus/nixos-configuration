@@ -10,7 +10,6 @@
     ./direnv
     ./ghostty
     ./git
-    ./helix
     ./i18n
     ./neovim
     ./util

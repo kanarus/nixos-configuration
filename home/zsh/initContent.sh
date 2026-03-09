@@ -42,7 +42,6 @@ setopt PROMPT_SUBST
 export PS1='%F{153}[%n%F{111}@%m%F{153}:%~]$(maybe_git_branch)%f '
 
 # aliases
-alias helix='hx'
 alias la='ls -al'
 function merged () {
   to="${1:-main}"
@@ -59,7 +58,6 @@ abbreviations=(
   "po"   "git push origin"
   "push" "git push"
   "ed"   "echo 'use flake path:.' > .envrc && direnv allow"
-  "x"    "helix"
   "n"    "nvim ."
 )
 function expand_abbreviation() {
