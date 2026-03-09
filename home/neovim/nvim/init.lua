@@ -14,6 +14,8 @@ vim.opt.wrap = false
 vim.opt.laststatus = 3
 vim.opt.cmdheight = 0
 vim.opt.showmode = false
+vim.opt.virtualedit:append("onemore")
+vim.keymap.set("n", "<End>", "$l", { remap = true, silent = true })
 
 vim.o.clipboard = "unnamedplus"
 vim.o.completeopt = "menuone,noselect"
