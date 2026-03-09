@@ -1,7 +1,7 @@
 setopt INTERACTIVE_COMMENTS
 
-# handle `/` as a word segment
-WORDCHARS=${WORDCHARS//\//}
+# handle `/`, `(`, `)`, `:` as word segments
+WORDCHARS=${WORDCHARS//[\/\(\):]/}
 
 # enable Ctrl-{left, right} to move by words
 bindkey "^[[1;5C" forward-word
@@ -47,8 +47,8 @@ alias la='ls -al'
 function merged () {
   to="${1:-main}"
   from=$(git branch --show-current)
-  git switch $to && git pull origin $to
-  git branch -D $from
+  git switch "$to" && git pull origin "$to"
+  git branch -D "$from"
 }
 
 # abbreviations
