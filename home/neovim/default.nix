@@ -45,6 +45,7 @@ let
     gopls
     rust-analyzer
     bash-language-server
+    haskell-language-server
   ];
   treesitterPluginsSelector = tp: with tp; [
     nix

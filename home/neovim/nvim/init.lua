@@ -51,11 +51,11 @@ require("lazy").setup({
       },
       keymap = {
         preset = "none",
-	      ["<Tab>"]   = { "select_next", "fallback" },
-	      ["<C-Tab>"] = { "select_prev", "fallback" },
-	      ["<CR>"]    = { "accept", "fallback" },
-	      ["<Down>"]  = { "scroll_documentation_up", "fallback" },
-	      ["<Up>"]    = { "scroll_documentation_down", "fallback" },
+	    ["<Down>"]  = { "select_next", "fallback" },
+	    ["<Up>"]    = { "select_prev", "fallback" },
+	    ["<CR>"]    = { "accept", "fallback" },
+	    ["<Tab>"]   = { "scroll_documentation_down", "fallback" },
+	    ["<C-Tab>"] = { "scroll_documentation_up", "fallback" },
       },
       completion = {
         documentation = {
@@ -150,6 +150,7 @@ require("lazy").setup({
         "gopls",
         "rust_analyzer",
         "bashls",
+        "hls"
       }) do
         vim.lsp.enable(lspconfigname);
       end
