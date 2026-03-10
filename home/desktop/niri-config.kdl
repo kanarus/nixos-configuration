@@ -26,6 +26,7 @@ window-rule {
     focus-ring {
     	on
     	width 2
+        active-color "#e2eaff"
     }
 }
 
