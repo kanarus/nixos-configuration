@@ -4,12 +4,8 @@ vim.wo.signcolumn = "yes"
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
-vim.opt.expandtab = true
 vim.opt.smarttab = true
 vim.opt.autoindent = true
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
 vim.opt.wrap = false
 vim.opt.laststatus = 3
 vim.opt.cmdheight = 0
@@ -27,6 +23,29 @@ vim.o.confirm = true
 vim.o.scrolloff = 8
 vim.o.sidescrolloff = 16
 vim.o.sidescroll = 1
+
+---@class LanguageConfig
+---@field tabtospace integer|nil
+
+---@type table<string, LanguageConfig>
+LspconfigName_to_LanguageConfig = {
+  ["nixd"]          = {tabtospace = 2},
+  ["lua_ls"]        = {tabtospace = 2},
+  ["gopls"]         = {tabtospace = nil},
+  ["rust_analyzer"] = {tabtospace = 4},
+  ["bashls"]        = {tabtospace = 2},
+  ["hls"]           = {tabtospace = 2},
+}
+
+---@param config LanguageConfig
+local applyLanguageConfig = function(config)
+  if config.tabtospace ~= nil then
+    vim.opt_local.expandtab = true
+    vim.opt_local.tabstop = config.tabtospace
+    vim.opt_local.softtabstop = config.tabtospace
+    vim.opt_local.shiftwidth = config.tabtospace
+  end
+end
 
 require("lazy").setup({
   {
@@ -126,6 +145,21 @@ require("lazy").setup({
     dependencies = { "saghen/blink.cmp" },
     event = { "BufNewFile", "BufReadPre" },
     config = function()
+      vim.lsp.config("*", {
+        capabilities = require("blink.cmp").get_lsp_capabilities(),
+      })
+      local languageconfig_augroup = vim.api.nvim_create_augroup("LanguageConfig", { clear = true })
+      for lspconfigname, _ in pairs(LspconfigName_to_LanguageConfig) do
+        vim.lsp.enable(lspconfigname);
+        vim.api.nvim_create_autocmd("FileType", {
+	  group = languageconfig_augroup,
+          pattern = vim.lsp.config[lspconfigname].filetypes,
+          callback = function() -- be careful of variables' scope over a `callback`
+            local languageconfig = LspconfigName_to_LanguageConfig[lspconfigname]
+            applyLanguageConfig(languageconfig)
+          end,
+        })
+      end
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(args)
           local nmap = function(keys, fn, desc)
@@ -141,19 +175,6 @@ require("lazy").setup({
           nmap("gd", vim.lsp.buf.definition,    "[G]oto Definition")
         end
       })
-      vim.lsp.config("*", {
-        capabilities = require("blink.cmp").get_lsp_capabilities(),
-      })
-      for _, lspconfigname in ipairs({
-        "nixd",
-        "lua_ls",
-        "gopls",
-        "rust_analyzer",
-        "bashls",
-        "hls"
-      }) do
-        vim.lsp.enable(lspconfigname);
-      end
     end
   },
   {
