@@ -46,6 +46,7 @@ let
     rust-analyzer
     bash-language-server
     haskell-language-server
+    lean4
   ];
   treesitterPluginsSelector = tp: with tp; [
     nix

@@ -27,16 +27,6 @@ vim.o.sidescroll = 1
 ---@class LanguageConfig
 ---@field tabtospace integer|nil
 
----@type table<string, LanguageConfig>
-LspconfigName_to_LanguageConfig = {
-  ["nixd"]          = {tabtospace = 2},
-  ["lua_ls"]        = {tabtospace = 2},
-  ["gopls"]         = {tabtospace = nil},
-  ["rust_analyzer"] = {tabtospace = 4},
-  ["bashls"]        = {tabtospace = 2},
-  ["hls"]           = {tabtospace = 2},
-}
-
 ---@param config LanguageConfig
 local applyLanguageConfig = function(config)
   if config.tabtospace ~= nil then
@@ -148,11 +138,32 @@ require("lazy").setup({
       vim.lsp.config("*", {
         capabilities = require("blink.cmp").get_lsp_capabilities(),
       })
+
+      vim.filetype.add({
+        extension = {
+          lean = "lean",
+        },
+      })
+      vim.lsp.config("lean", {
+        cmd = { "lean", "--server" },
+        filetypes = { "lean" },
+      })
+
+      ---@type table<string, LanguageConfig>
+      LspconfigName_to_LanguageConfig = {
+        ["nixd"]          = {tabtospace = 2},
+        ["lua_ls"]        = {tabtospace = 2},
+        ["gopls"]         = {tabtospace = nil},
+        ["rust_analyzer"] = {tabtospace = 4},
+        ["bashls"]        = {tabtospace = 2},
+        ["hls"]           = {tabtospace = 2},
+        ["lean"]          = {tabtospace = 2},
+      }
       local languageconfig_augroup = vim.api.nvim_create_augroup("LanguageConfig", { clear = true })
       for lspconfigname, _ in pairs(LspconfigName_to_LanguageConfig) do
         vim.lsp.enable(lspconfigname);
         vim.api.nvim_create_autocmd("FileType", {
-	  group = languageconfig_augroup,
+          group = languageconfig_augroup,
           pattern = vim.lsp.config[lspconfigname].filetypes,
           callback = function() -- be careful of variables' scope over a `callback`
             local languageconfig = LspconfigName_to_LanguageConfig[lspconfigname]
@@ -160,6 +171,7 @@ require("lazy").setup({
           end,
         })
       end
+
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(args)
           local nmap = function(keys, fn, desc)
