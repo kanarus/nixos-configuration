@@ -21,6 +21,32 @@ let
       sha256 = "QN9HsTlxV0vL7NuKT6TWtP2iODyIVROOd+GFR/mW7vQ=";
     };
   });
+  leanAbbreviationsLuaTable =
+    let
+      leanAbbreviations = pkgs.stdenv.mkDerivation {
+        name = "lean-abbreviations";
+        src = pkgs.fetchFromGitHub {
+          owner = "leanprover";
+          repo = "vscode-lean4";
+          rev = "294a803de45f5302865d84c44783aeb4e18068bb";
+          sha256 = "vWMSIZ6dUNkpXI0INg2BEKQdnEjIYPVMNrrtz4LCzJ0=";
+        };
+        nativeBuildInputs = [ pkgs.jq ];
+        dontUnpack = true;
+        buildPhase = ''
+          ${pkgs.jq}/bin/jq -r '
+            to_entries
+            | map("[" + ("\\"+.key | @json) + "]=" + (.value | @json))
+            | "{" + join(",") + "}"
+          ' < $src/lean4-unicode-input/src/abbreviations.json > LuaTable
+        '';
+        installPhase = ''
+          mkdir -p $out
+          cp LuaTable $out/
+        '';
+      };
+    in
+    lib.strings.trim (builtins.readFile "${leanAbbreviations}/LuaTable");
 in
 let
   plugins = with pkgs.vimPlugins; [
@@ -67,8 +93,8 @@ in
     extraPackages = lsps;
     plugins = [pkgs.vimPlugins.lazy-nvim];
     initLua = builtins.replaceStrings
-      ["{{pluginsDir}}"]
-      ["${pluginsDir}"]
+      ["{{pluginsDir}}" "LEAN_ABBREVIATIONS = {}"]
+      ["${pluginsDir}"  "LEAN_ABBREVIATIONS = ${leanAbbreviationsLuaTable}"]
       (builtins.readFile ./nvim/init.lua);
   };
 

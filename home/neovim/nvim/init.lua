@@ -11,7 +11,6 @@ vim.opt.laststatus = 3
 vim.opt.cmdheight = 0
 vim.opt.showmode = false
 vim.opt.virtualedit:append("onemore")
-vim.keymap.set("n", "<End>", "$l", { remap = true, silent = true })
 
 vim.o.clipboard = "unnamedplus"
 vim.o.completeopt = "menuone,noselect"
@@ -23,6 +22,10 @@ vim.o.confirm = true
 vim.o.scrolloff = 8
 vim.o.sidescrolloff = 16
 vim.o.sidescroll = 1
+
+vim.keymap.set("n", "<End>", "$l", { remap = true, silent = true })
+
+vim.filetype.add({ extension = { lean = "lean" } })
 
 ---@class LanguageConfig
 ---@field tabtospace integer|nil
@@ -131,6 +134,35 @@ require("lazy").setup({
     end
   },
   {
+    "L3MON4D3/LuaSnip",
+    event = "InsertEnter",
+    config = function()
+      vim.api.nvim_create_autocmd("FileType", {
+        group = vim.api.nvim_create_augroup("LeanAbbreviations", { clear = true }),
+        pattern = { "lean" },
+        callback = function()
+          local ls = require("luasnip")
+          ---@type table<string, string>
+          LEAN_ABBREVIATIONS = {} -- replaced by nixos-configuration/home/neovim/default.nix
+          local snippets = {}
+          local autosnippets = {}
+          for trigger, symbol in pairs(LEAN_ABBREVIATIONS) do
+            table.insert(snippets, ls.snippet(
+              { trig = trigger, desc = symbol },
+              { ls.text_node(symbol) }
+            ))
+            table.insert(autosnippets, ls.snippet(
+              { snippetType = "autosnippet", trig = trigger .. " ", desc = symbol },
+              { ls.text_node(symbol) }
+            ))
+          end
+          ls.add_snippets("lean", snippets)
+          ls.add_snippets("lean", autosnippets)
+        end
+      })
+    end
+  },
+  {
     "neovim/nvim-lspconfig",
     dependencies = { "saghen/blink.cmp" },
     event = { "BufNewFile", "BufReadPre" },
@@ -139,11 +171,6 @@ require("lazy").setup({
         capabilities = require("blink.cmp").get_lsp_capabilities(),
       })
 
-      vim.filetype.add({
-        extension = {
-          lean = "lean",
-        },
-      })
       vim.lsp.config("lean", {
         cmd = { "lean", "--server" },
         filetypes = { "lean" },
@@ -240,7 +267,7 @@ require("lazy").setup({
     lazy = true,
   },
   dev = {
-    path = "{{pluginsDir}}", -- replaced by ~/nixos-configuration/home/neovim/default.nix
+    path = "{{pluginsDir}}", -- replaced by nixos-configuration/home/neovim/default.nix
     patterns = { "." },
     fallback = false,
   },
