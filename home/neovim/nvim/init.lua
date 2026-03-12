@@ -135,13 +135,16 @@ require("lazy").setup({
   },
   {
     "L3MON4D3/LuaSnip",
-    event = "InsertEnter",
     config = function()
       vim.api.nvim_create_autocmd("FileType", {
         group = vim.api.nvim_create_augroup("LeanAbbreviations", { clear = true }),
         pattern = { "lean" },
         callback = function()
           local ls = require("luasnip")
+          ls.config.set_config({
+            enable_auto_snippets = true,
+            updateevents = "TextChanged,TextChangedI",
+          })
           ---@type table<string, string>
           LEAN_ABBREVIATIONS = {} -- replaced by nixos-configuration/home/neovim/default.nix
           local snippets = {}
