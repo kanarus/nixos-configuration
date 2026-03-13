@@ -1,7 +1,11 @@
 setopt INTERACTIVE_COMMENTS
 
-# handle `/`, `(`, `)`, `:` as word segments
-WORDCHARS=${WORDCHARS//[\/\(\):]/}
+# handle `/`, `-`, `(`, `)`, `:`, `-` as word segments
+WORDCHARS=${WORDCHARS//[\/\(\):\-]/}
+WORDCHARS='!#$^'
+
+# bind Ctrl-Backspace to `backward-kill-word` (same as Ctrl-w)
+bindkey "^H" backward-kill-word
 
 # enable Ctrl-{left, right} to move by words
 bindkey "^[[1;5C" forward-word
