@@ -185,6 +185,7 @@ require("lazy").setup({
         ["bashls"]        = {tabtospace = 2},
         ["hls"]           = {tabtospace = 2},
         ["lean"]          = {tabtospace = 2},
+        ["ts_ls"]         = {tabtospace = 2},
       }
       local languageconfig_augroup = vim.api.nvim_create_augroup("LanguageConfig", { clear = true })
       for lspconfigname, _ in pairs(LspconfigName_to_LanguageConfig) do
@@ -192,7 +193,7 @@ require("lazy").setup({
         vim.api.nvim_create_autocmd("FileType", {
           group = languageconfig_augroup,
           pattern = vim.lsp.config[lspconfigname].filetypes,
-          callback = function() -- be careful of variables' scope over a `callback`
+          callback = function() -- be careful of variables' scopes over a `callback`
             local languageconfig = LspconfigName_to_LanguageConfig[lspconfigname]
             applyLanguageConfig(languageconfig)
           end,

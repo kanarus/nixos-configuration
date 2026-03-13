@@ -73,6 +73,7 @@ let
     bash-language-server
     haskell-language-server
     lean4
+    typescript-language-server
   ];
   treesitterPluginsSelector = tp: with tp; [
     nix
@@ -80,6 +81,8 @@ let
     rust
     go
     bash
+    typescript
+    javascript
   ];
 in
 {
