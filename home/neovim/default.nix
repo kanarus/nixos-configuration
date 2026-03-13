@@ -75,7 +75,7 @@ let
     lean4
     typescript-language-server
   ];
-  treesitterPluginsSelector = tp: with tp; [
+  treesitterParsersSelector = tp: with tp; [
     nix
     lua
     rust
@@ -85,12 +85,21 @@ let
     javascript
   ];
 in
+let
+  pluginsDir = pkgs.linkFarm "plugins-dir" (
+    map pluginDrv2linkFarmEntry plugins
+  );
+  nvimTreesitterParsers =
+    let
+      nvimTreesitterDependencies = pkgs.symlinkJoin {
+        name = "nvim-treesitter-dependencies";
+        paths = (pkgs.vimPlugins.nvim-treesitter.withPlugins treesitterParsersSelector).dependencies;
+      };
+    in
+    "${nvimTreesitterDependencies}/parser";
+in
 {
-  programs.neovim = let
-    pluginsDir = pkgs.linkFarm "plugins-dir" (
-      map pluginDrv2linkFarmEntry plugins
-    );
-  in {
+  programs.neovim = {
     enable = true;
     defaultEditor = true;
     extraPackages = lsps;
@@ -101,15 +110,10 @@ in
       (builtins.readFile ./nvim/init.lua);
   };
 
-  home.file = let
-    nvimTreesitterDependencies = pkgs.symlinkJoin {
-      name = "nvim-treesitter-dependencies";
-      paths = (
-        pkgs.vimPlugins.nvim-treesitter.withPlugins treesitterPluginsSelector
-      ).dependencies;
-    };
-  in {
-    "${config.xdg.dataHome}/nvim/site/parser".source = "${nvimTreesitterDependencies}/parser";
-    "${config.xdg.dataHome}/nvim/site/queries".source = "${nvimTreesitterDependencies}/queries";
+  home.file = {
+    # the installed parsers (selected by `treesitterParsersSelector`)
+    "${config.xdg.dataHome}/nvim/site/parser".source = "${nvimTreesitterParsers}";
+    # nvim-treesitter's builtin, all supported queries (https://github.com/nvim-treesitter/nvim-treesitter/tree/main/runtime/queries)
+    "${config.xdg.dataHome}/nvim/site/queries".source = "${pluginsDir}/nvim-treesitter/runtime/queries";
   };
 }
