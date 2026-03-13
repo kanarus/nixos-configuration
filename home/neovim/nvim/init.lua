@@ -63,11 +63,11 @@ require("lazy").setup({
       },
       keymap = {
         preset = "none",
-	    ["<Down>"]  = { "select_next", "fallback" },
-	    ["<Up>"]    = { "select_prev", "fallback" },
-	    ["<CR>"]    = { "accept", "fallback" },
-	    ["<Tab>"]   = { "scroll_documentation_down", "fallback" },
-	    ["<C-Tab>"] = { "scroll_documentation_up", "fallback" },
+        ["<Down>"]  = { "select_next", "fallback" },
+	      ["<Up>"]    = { "select_prev", "fallback" },
+	      ["<CR>"]    = { "accept", "fallback" },
+	      ["<Tab>"]   = { "scroll_documentation_down", "fallback" },
+	      ["<C-Tab>"] = { "scroll_documentation_up", "fallback" },
       },
       completion = {
         documentation = {
@@ -139,28 +139,25 @@ require("lazy").setup({
       vim.api.nvim_create_autocmd("FileType", {
         group = vim.api.nvim_create_augroup("LeanAbbreviations", { clear = true }),
         pattern = { "lean" },
+        once = true,
         callback = function()
           local ls = require("luasnip")
           ls.config.set_config({
             enable_auto_snippets = true,
             updateevents = "TextChanged,TextChangedI",
           })
+
           ---@type table<string, string>
           LEAN_ABBREVIATIONS = {} -- replaced by nixos-configuration/home/neovim/default.nix
+
           local snippets = {}
-          local autosnippets = {}
           for trigger, symbol in pairs(LEAN_ABBREVIATIONS) do
             table.insert(snippets, ls.snippet(
               { trig = trigger, desc = symbol },
               { ls.text_node(symbol) }
             ))
-            table.insert(autosnippets, ls.snippet(
-              { snippetType = "autosnippet", trig = trigger .. " ", desc = symbol },
-              { ls.text_node(symbol) }
-            ))
           end
           ls.add_snippets("lean", snippets)
-          ls.add_snippets("lean", autosnippets)
         end
       })
     end
