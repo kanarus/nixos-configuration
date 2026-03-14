@@ -18,7 +18,7 @@ tooltip * {
 }
 
 widget box {
-    min-width: 28px;
+    min-width: 30px;
 }
 widget box:hover {
     background-color: rgba(100, 100, 100, 0.84);
