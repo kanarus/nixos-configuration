@@ -66,8 +66,8 @@ require("lazy").setup({
         ["<Down>"]  = { "select_next", "fallback" },
 	      ["<Up>"]    = { "select_prev", "fallback" },
 	      ["<CR>"]    = { "accept", "fallback" },
-	      ["<Tab>"]   = { "scroll_documentation_down", "fallback" },
-	      ["<C-Tab>"] = { "scroll_documentation_up", "fallback" },
+	      ["<C-Down>"]   = { "scroll_documentation_down", "fallback" },
+	      ["<C-Up>"] = { "scroll_documentation_up", "fallback" },
       },
       completion = {
         documentation = {
