@@ -21,6 +21,20 @@ let
       sha256 = "QN9HsTlxV0vL7NuKT6TWtP2iODyIVROOd+GFR/mW7vQ=";
     };
   });
+  treesitterQueriesLean = pkgs.stdenv.mkDerivation {
+    name = "treesitter-queries-lean";
+    src = pkgs.fetchFromGitHub {
+      owner = "julian";
+      repo = "lean.nvim";
+      rev = "306d2d756c869c60887efdf0dd8d35d8b0e9a33c";
+      sha256 = "qbKybfraFtAvFj2rJgX3fDP6GS4oTDqmDBKS3SsjxrQ=";
+    };
+    dontUnpack = true;
+    installPhase = ''
+      mkdir -p $out
+      cp $src/queries/lean/*.scm $out/
+    '';
+  };
   leanAbbreviationsLuaTable =
     let
       leanAbbreviations = pkgs.stdenv.mkDerivation {
@@ -31,8 +45,8 @@ let
           rev = "294a803de45f5302865d84c44783aeb4e18068bb";
           sha256 = "vWMSIZ6dUNkpXI0INg2BEKQdnEjIYPVMNrrtz4LCzJ0=";
         };
-        nativeBuildInputs = [ pkgs.jq ];
         dontUnpack = true;
+        nativeBuildInputs = [ pkgs.jq ];
         buildPhase = ''
           ${pkgs.jq}/bin/jq -r '
             to_entries
@@ -49,7 +63,33 @@ let
     lib.strings.trim (builtins.readFile "${leanAbbreviations}/LuaTable");
 in
 let
-  plugins = with pkgs.vimPlugins; [
+  lsps = with pkgs; [
+    nixd
+    lua-language-server
+    gopls
+    rust-analyzer
+    bash-language-server
+    haskell-language-server
+    lean4
+    typescript-language-server
+  ];
+  nvimTreesitter = (pkgs.vimPlugins.nvim-treesitter.withPlugins (
+    _: with pkgs.tree-sitter-grammars; [
+      tree-sitter-nix
+      tree-sitter-lua
+      tree-sitter-lean
+      tree-sitter-rust
+      tree-sitter-go
+      tree-sitter-bash
+      tree-sitter-typescript
+      tree-sitter-javascript
+    ]
+  )).overrideAttrs (oldAttrs: {
+    preInstall = (oldAttrs.preInstall or "") + ''
+      ln -s ${treesitterQueriesLean} runtime/queries/lean
+    '';
+  });
+  plugins =  with pkgs.vimPlugins; [
     blink-cmp
     cmp-buffer
     cmp-nvim-lsp
@@ -62,58 +102,40 @@ let
     mini-icons
     nvim-autopairs
     nvim-lspconfig
-    nvim-treesitter
     oil-nvim
-  ];
-  lsps = with pkgs; [
-    nixd
-    lua-language-server
-    gopls
-    rust-analyzer
-    bash-language-server
-    haskell-language-server
-    lean4
-    typescript-language-server
-  ];
-  treesitterParsersSelector = tp: with tp; [
-    nix
-    lua
-    rust
-    go
-    bash
-    typescript
-    javascript
+  ] ++ [
+    nvimTreesitter
   ];
 in
-let
-  pluginsDir = pkgs.linkFarm "plugins-dir" (
-    map pluginDrv2linkFarmEntry plugins
-  );
-  nvimTreesitterParsers =
+{
+  programs.neovim =
+    let
+      pluginsDir = pkgs.linkFarm "plugins-dir" (
+        map pluginDrv2linkFarmEntry plugins
+      );
+    in
+    {
+      enable = true;
+      defaultEditor = true;
+      extraPackages = lsps;
+      plugins = [pkgs.vimPlugins.lazy-nvim];
+      initLua = builtins.replaceStrings
+        ["{{pluginsDir}}" "LEAN_ABBREVIATIONS = {}"]
+        ["${pluginsDir}"  "LEAN_ABBREVIATIONS = ${leanAbbreviationsLuaTable}"]
+        (builtins.readFile ./nvim/init.lua);
+    };
+
+  home.file =
     let
       nvimTreesitterDependencies = pkgs.symlinkJoin {
         name = "nvim-treesitter-dependencies";
-        paths = (pkgs.vimPlugins.nvim-treesitter.withPlugins treesitterParsersSelector).dependencies;
+        paths = nvimTreesitter.dependencies;
       };
     in
-    "${nvimTreesitterDependencies}/parser";
-in
-{
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    extraPackages = lsps;
-    plugins = [pkgs.vimPlugins.lazy-nvim];
-    initLua = builtins.replaceStrings
-      ["{{pluginsDir}}" "LEAN_ABBREVIATIONS = {}"]
-      ["${pluginsDir}"  "LEAN_ABBREVIATIONS = ${leanAbbreviationsLuaTable}"]
-      (builtins.readFile ./nvim/init.lua);
-  };
-
-  home.file = {
-    # the installed parsers (selected by `treesitterParsersSelector`)
-    "${config.xdg.dataHome}/nvim/site/parser".source = "${nvimTreesitterParsers}";
-    # nvim-treesitter's builtin, all supported queries (https://github.com/nvim-treesitter/nvim-treesitter/tree/main/runtime/queries)
-    "${config.xdg.dataHome}/nvim/site/queries".source = "${pluginsDir}/nvim-treesitter/runtime/queries";
-  };
+    {
+      # the installed parsers (selected by `nvim-treesitter.withPlugins`)
+      "${config.xdg.dataHome}/nvim/site/parser".source = "${nvimTreesitterDependencies}/parser";
+      # nvim-treesitter's builtin, all supported queries (https://github.com/nvim-treesitter/nvim-treesitter/tree/main/runtime/queries)
+      "${config.xdg.dataHome}/nvim/site/queries".source = "${nvimTreesitter}/runtime/queries";
+    };
 }
