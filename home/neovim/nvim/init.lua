@@ -25,6 +25,11 @@ vim.o.sidescroll = 1
 
 vim.keymap.set("n", "<End>", "$l", { remap = true, silent = true })
 
+vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
+  pattern = "*",
+  command = "silent! update",
+})
+
 vim.filetype.add({ extension = { lean = "lean" } })
 
 ---@class LanguageConfig
@@ -32,12 +37,13 @@ vim.filetype.add({ extension = { lean = "lean" } })
 
 ---@param config LanguageConfig
 local applyLanguageConfig = function(config)
-  if config.tabtospace ~= nil then
-    vim.opt_local.expandtab = true
-    vim.opt_local.tabstop = config.tabtospace
-    vim.opt_local.softtabstop = config.tabtospace
-    vim.opt_local.shiftwidth = config.tabtospace
+  if config.tabtospace == nil then
+    config.tabtospace = 2 -- default `tabtospace`
   end
+  vim.opt_local.expandtab = true
+  vim.opt_local.tabstop = config.tabtospace
+  vim.opt_local.softtabstop = config.tabtospace
+  vim.opt_local.shiftwidth = config.tabtospace
 end
 
 require("lazy").setup({
