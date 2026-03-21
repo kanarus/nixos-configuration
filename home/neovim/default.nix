@@ -74,16 +74,17 @@ let
     typescript-language-server
   ];
   nvimTreesitter = (pkgs.vimPlugins.nvim-treesitter.withPlugins (
-    _: with pkgs.tree-sitter-grammars; [
-      tree-sitter-nix
-      tree-sitter-lua
+    nt: (with nt; [
+      nix
+      lua
+      rust
+      go
+      bash
+      typescript
+      javascript
+    ]) ++ (with pkgs.tree-sitter-grammars; [
       tree-sitter-lean
-      tree-sitter-rust
-      tree-sitter-go
-      tree-sitter-bash
-      tree-sitter-typescript
-      tree-sitter-javascript
-    ]
+    ])
   )).overrideAttrs (oldAttrs: {
     preInstall = (oldAttrs.preInstall or "") + ''
       ln -s ${treesitterQueriesLean} runtime/queries/lean
