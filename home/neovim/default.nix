@@ -21,6 +21,15 @@ let
       sha256 = "QN9HsTlxV0vL7NuKT6TWtP2iODyIVROOd+GFR/mW7vQ=";
     };
   });
+  termite-nvim = (buildVimPlugin {
+    name = "termite.nvim";
+    src = pkgs.fetchFromGitHub {
+      owner = "ruicsh";
+      repo = "termite.nvim";
+      rev = "60184a1eaec3bf3f8f404eed4ee69b30f38cfe54";
+      sha256 = "qbdrY9of4GZEWhApKnb90CRwZQKRV5ZyGhQsxGfY+U4=";
+    };
+  });
   treesitterQueriesLean = pkgs.stdenv.mkDerivation {
     name = "treesitter-queries-lean";
     src = pkgs.fetchFromGitHub {
@@ -104,6 +113,7 @@ let
     nvim-autopairs
     nvim-lspconfig
     oil-nvim
+    termite-nvim
   ] ++ [
     nvimTreesitter
   ];
