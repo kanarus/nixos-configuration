@@ -1,3 +1,9 @@
+# opened in neovim, forcibly (independent of previous vimmode)
+# set the cursor-shape to bar, sync with ghostty config
+if [ -n "$NVIM" ]; then
+  printf '\e[6 q'
+fi
+
 setopt INTERACTIVE_COMMENTS
 
 # handle `/`, `-`, `(`, `)`, `:`, `-` as word segments
