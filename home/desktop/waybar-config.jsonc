@@ -58,8 +58,8 @@
     "tooltip-format-ethernet": "[ethernet] {ipaddr}/{cidr}",
     "format-linked": "",
     "tooltip-format": "[network] {ifname} via {gwaddr}",
-    "format-disconnected": "⚠disconnected",
-    "tooltip-format-disconnected": "",
+    "format-disconnected": "⚠",
+    "tooltip-format-disconnected": "disconnected",
   },
   "battery": {
     "status": {
