@@ -27,6 +27,7 @@ vim.keymap.set("n", "<End>", "$l", { remap = true, silent = true })
 
 vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
   pattern = "*",
+  nested = true,
   command = "silent! update",
 })
 
