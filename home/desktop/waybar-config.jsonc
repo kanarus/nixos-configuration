@@ -2,7 +2,7 @@
   "height": 24,
   "modules-left": [],
   "modules-center": ["clock"],
-  "modules-right": ["tray", "network", "bluetooth", "pulseaudio", "battery"],
+  "modules-right": ["tray", "network", "pulseaudio", "battery"],
   "clock": {
     "format": "{:%H:%M}",
     "tooltip-format": "<tt>      {:%b %Y}\n{calendar}</tt>",
@@ -22,16 +22,16 @@
   //     "deactivated": "",
   //   }
   // },
-  "bluetooth": {
-    "format-no-controller": "",
-    "format-disabled": "",
-    "format-off": "",
-    "format-on": "",
-    "format-connected": "",
-    "on-click": "blueman-manager",
-    "tooltip-format": "{num_connections} devices connected\n{device_enumerate}",
-    "tooltip-format-enumerate-connected": "{device_alias}",
-  },
+  // "bluetooth": {
+  //   "format-no-controller": "",
+  //   "format-disabled": "",
+  //   "format-off": "",
+  //   "format-on": "",
+  //   "format-connected": "",
+  //   "on-click": "blueman-manager",
+  //   "tooltip-format": "{num_connections} devices connected\n{device_enumerate}",
+  //   "tooltip-format-enumerate-connected": "{device_alias}",
+  // },
   "pulseaudio": {
     "on-click": "pavucontrol",
     "format": "{icon}",

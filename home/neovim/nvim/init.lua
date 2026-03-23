@@ -4,6 +4,10 @@ vim.wo.signcolumn = "yes"
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+vim.opt.expandtab = true
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
 vim.opt.smarttab = true
 vim.opt.autoindent = true
 vim.opt.wrap = false
@@ -32,21 +36,27 @@ vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
   command = "silent! update",
 })
 
-vim.filetype.add({ extension = { lean = "lean" } })
+vim.filetype.add({
+  extension = {
+    lean = "lean",
+  }
+})
 
 ---@class LanguageConfig
 ---@field tabtospace integer|nil
 
 ---@param config LanguageConfig
 local applyLanguageConfig = function(config)
-  if config.tabtospace == nil then
-    config.tabtospace = 2 -- default `tabtospace`
-  end
   vim.opt_local.expandtab = true
   vim.opt_local.tabstop = config.tabtospace
   vim.opt_local.softtabstop = config.tabtospace
   vim.opt_local.shiftwidth = config.tabtospace
 end
+
+-- apply default language config as the general fallback
+applyLanguageConfig({
+  tabtospace = 2,
+})
 
 require("lazy").setup({
   {

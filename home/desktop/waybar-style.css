@@ -18,13 +18,13 @@ tooltip * {
 }
 
 widget box {
-    min-width: 30px;
+    min-width: 22px;
 }
 widget box:hover {
     background-color: rgba(100, 100, 100, 0.84);
 }
 widget label {
-    min-width: 24px;
+    min-width: 22px;
     font-family: 'Font Awesome 7 Free';
 }
 widget label:hover {
@@ -34,6 +34,7 @@ widget label:hover {
 #clock {
     font-family: 'UDEV Gothic 35NF';
 }
+
 #battery.warning {
     color: #e9d502;
 }
@@ -41,3 +42,12 @@ widget label:hover {
     color: #d0342C;
 }
 
+#tray:hover {
+    background-color: transparent;
+}
+#tray widget>image {
+    min-width: 22px;
+}
+#tray widget:hover {
+    background-color: rgba(100, 100, 100, 0.84);
+}
