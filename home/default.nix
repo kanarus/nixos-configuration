@@ -5,7 +5,7 @@
   home.stateVersion = "25.11";
   programs.home-manager.enable = true;
   imports = [
-    ./chrome
+    ./browser
     ./desktop
     ./direnv
     ./ghostty
