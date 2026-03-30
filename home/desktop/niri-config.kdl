@@ -3,6 +3,8 @@ input {
 		xkb {
 			layout "us"
 		}
+        repeat-delay 500
+        repeat-rate  30
 	}
 	touchpad {
 		tap
