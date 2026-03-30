@@ -48,7 +48,7 @@ binds {
 	Mod+Right        { focus-column-right; }
 	Mod+Return       { maximize-column; }
 	Mod+T            { spawn "ghostty"; }
-	Mod+B            { spawn "google-chrome-stable"; }
+	Mod+B            { spawn "firefox"; }
 	Mod+Alt+Left     { swap-window-left; }
 	Mod+Alt+Right    { swap-window-right; }
 	Ctrl+Shift+Left  { move-workspace-to-monitor-left; }
