@@ -71,4 +71,42 @@ in
       "org.freedesktop.portal.FileChooser" = [ "gnome" ];
     };
   };
+
+  services.kanshi =
+    let
+      builtinMonitorName = "eDP-1";
+      HDMIMonitorName = "DP-1";
+      outputOf = monitorName: {
+        criteria = monitorName;
+        status = "enable";
+      };
+    in
+  {
+    enable = true;
+    settings = [
+      {
+        profile = {
+          name = "undocked";
+          outputs = [
+            (outputOf builtinMonitorName)
+          ];
+          exec = [
+            "niri msg action focus-workspace 1"
+          ];
+        };
+      }
+      {
+        profile = {
+          name = "docked";
+          outputs = [
+            (outputOf builtinMonitorName)
+            (outputOf HDMIMonitorName)
+          ];
+          exec = [
+            "niri msg action focus-monitor ${HDMIMonitorName}"
+          ];
+        };
+      }
+    ];
+  };
 }
