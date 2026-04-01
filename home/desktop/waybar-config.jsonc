@@ -62,7 +62,7 @@
     "tooltip-format-disconnected": "disconnected",
   },
   "battery": {
-    "status": {
+    "states": {
       "full": 90,
       "health": 70,
       "half": 50,
@@ -71,7 +71,7 @@
     },
     "format": "{icon}",
     "format-icons": ["", "", "", "", ""],
-    "tooltip-format": "{capacity}%",
+    "tooltip-format": "{capacity}% ({timeTo})",
   },
   // "custom/power": {
   //   "format": "⏻",
