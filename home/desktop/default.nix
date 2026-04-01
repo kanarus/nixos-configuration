@@ -57,6 +57,7 @@ in
     font.name = "Noto Sans CJK JP";
     colorScheme = "dark";
     theme = gtkTheme;
+    gtk4.theme = gtkTheme;
     iconTheme = gtkIconTheme;
     cursorTheme = gtkCursorTheme;
   };
