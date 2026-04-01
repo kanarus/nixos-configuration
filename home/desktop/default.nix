@@ -34,8 +34,6 @@ in
     niri
     waybar
     swaybg
-    swayidle
-    swaylock
     xwayland-satellite
   ];
 
@@ -70,6 +68,10 @@ in
       default = [ "gtk" ];
       "org.freedesktop.portal.FileChooser" = [ "gnome" ];
     };
+  };
+
+  services.mako = {
+    enable = true;
   };
 
   services.kanshi =
