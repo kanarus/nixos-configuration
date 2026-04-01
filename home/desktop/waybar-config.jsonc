@@ -4,14 +4,14 @@
   "modules-center": ["clock"],
   "modules-right": ["tray", "network", "pulseaudio", "battery"],
   "clock": {
-    "format": "{:%H:%M}",
+    "format": " {:%H:%M} ",
     "tooltip-format": "<tt>      {:%b %Y}\n{calendar}</tt>",
     "calendar": {
       "mode": "month",
       "format": {
         "months": "",
         "days":   "<span>{}</span>",
-        "today":  "<span color='#dcbaba'>{}</span>",
+        "today":  "<span color='#ff4d4d'>{}</span>",
       }
     }
   },
