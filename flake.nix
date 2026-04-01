@@ -8,7 +8,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs:
+  outputs = { nixpkgs, home-manager, ... }@inputs:
     let
       system = "x86_64-linux";
       username = "kanarus";
@@ -26,7 +26,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = { inherit inputs; inherit username; };
+              home-manager.extraSpecialArgs = { inherit inputs username; };
               home-manager.users.${username} = import ./home;
             }
           ];
