@@ -1,9 +1,7 @@
-# hide titlebar
 gtk-titlebar = false
 window-decoration = none
 
-window-padding-x = 4
-window-padding-y = 2
+window-padding-balance = true
 
 window-save-state = never
 resize-overlay = never
@@ -12,6 +10,7 @@ scrollbar = never
 
 shell-integration = none
 confirm-close-surface = false
+app-notifications = false
 
 background = "#1a1a1a"
 foreground = "#e2eaff"
@@ -20,3 +19,11 @@ cursor-style = bar
 
 font-size = 15
 font-family = "UDEV Gothic 35NF"
+
+working-directory = ~/nixos-configuration
+window-inherit-working-directory = true
+
+keybind = alt+/=new_split:down
+keybind = alt+enter=toggle_split_zoom
+keybind = alt+up=goto_split:up
+keybind = alt+down=goto_split:down
