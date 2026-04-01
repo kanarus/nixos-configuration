@@ -72,6 +72,14 @@ in
 
   services.mako = {
     enable = true;
+    settings = {
+      "font" = "UDEV Gothic 35NF";
+      "background-color" = "#646464d6"; # rgba(100, 100, 100, 0.84)
+      "text-color" = "#e2eaff";
+      "border-radius" = 4;
+      "icons" = 1;
+      "default-timeout" = 3000;
+    };
   };
 
   services.kanshi =
