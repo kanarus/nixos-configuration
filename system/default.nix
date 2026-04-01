@@ -27,9 +27,9 @@
     enable = true;
     powerOnBoot = true;
     settings = {
-      General = {
-        Experimental = true;
-      };
+      # General = {
+      #   Experimental = true;
+      # };
     };
   };
 
