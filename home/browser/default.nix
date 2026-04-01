@@ -16,6 +16,7 @@
         "Locked" = false;
       };
       "Preferences" = {
+        "browser.translations.automaticallyPopup" = false;
         "toolkit.scrollbox.verticalScrollDistance" = 5;
         "general.smoothscroll.lines.durationMaxMs" = 600;
         "general.smoothscroll.lines.durationMinMs" = 400;
