@@ -18,13 +18,13 @@ tooltip * {
 }
 
 widget box {
-    min-width: 22px;
+    min-width: 24px;
 }
 widget box:hover {
     background-color: rgba(100, 100, 100, 0.84);
 }
 widget label {
-    min-width: 22px;
+    min-width: 24px;
     font-family: 'Font Awesome 7 Free';
 }
 widget label:hover {
@@ -46,7 +46,7 @@ widget label:hover {
     background-color: transparent;
 }
 #tray widget>image {
-    min-width: 22px;
+    min-width: 24px;
 }
 #tray widget:hover {
     background-color: rgba(100, 100, 100, 0.84);
