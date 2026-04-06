@@ -40,6 +40,7 @@ hotkey-overlay {
 }
 spawn-at-startup "waybar"
 spawn-at-startup "swaybg" "-i" "/home/kanarus/.local/share/wallpaper/default.png" "-m" "fill"
+spawn-at-startup "swayidle" "-w" "before-startup" "'swaylock --daemonize'"
 
 binds {
 	Print            { screenshot-window; }

@@ -34,6 +34,7 @@ in
     niri
     waybar
     swaybg
+    swayidle # working together with `programs.swaylock` below
     xwayland-satellite
   ];
 
@@ -67,6 +68,19 @@ in
     config."niri" = {
       default = [ "gtk" ];
       "org.freedesktop.portal.FileChooser" = [ "gnome" ];
+    };
+  };
+
+  programs.swaylock = {
+    enable = true;
+    settings = { # syncing with system/sddm.nix
+      image = "${../../assets/nix-wallpaper-gear.png}";
+      color = "e2eaff";
+      font-size = 96;
+      font = "UDEV Gothic 35NF";
+      indicator-idle-visible = false;
+      indicator-radius = 12;
+      line-color = "e2eaff";
     };
   };
 
