@@ -74,13 +74,11 @@ in
   programs.swaylock = {
     enable = true;
     settings = { # syncing with system/sddm.nix
+      no-unlock-indicator = true;
       image = "${../../assets/nix-wallpaper-gear.png}";
-      color = "e2eaff";
       font-size = 96;
       font = "UDEV Gothic 35NF";
-      indicator-idle-visible = false;
-      indicator-radius = 12;
-      line-color = "e2eaff";
+      text-color = "e2eaff";
     };
   };
 
