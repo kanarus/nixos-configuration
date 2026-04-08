@@ -49,8 +49,8 @@ binds {
 	Mod+Q            { close-window; }
 	Mod+Left         { focus-column-left; }
 	Mod+Right        { focus-column-right; }
-    Mod+Up           { focus-window-or-workspace-down; }
-    Mod+Down         { focus-window-or-workspace-up; }
+    Mod+Up           { focus-window-or-workspace-up; }
+    Mod+Down         { focus-window-or-workspace-down; }
 	Mod+Return       { maximize-column; }
 	Mod+T            { spawn "ghostty"; }
 	Mod+B            { spawn "firefox"; }
