@@ -3,5 +3,6 @@
     yazi
     blueman
     zoom-us
+    pavucontrol
   ];
 }
