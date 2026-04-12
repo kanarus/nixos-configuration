@@ -118,6 +118,8 @@ in
     {
       enable = true;
       defaultEditor = true;
+      withRuby = false;
+      withPython3 = false;
       extraPackages = lsps;
       plugins = [pkgs.vimPlugins.lazy-nvim];
       initLua = builtins.replaceStrings
