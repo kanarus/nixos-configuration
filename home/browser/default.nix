@@ -18,6 +18,8 @@
         "Snippets" = false;
         "Locked" = false;
       };
+      "Bookmarks" = [];
+      "NoDefaultBookmarks" = true;
       "ExtensionSettings" = {
         "*" = {
           "installation_mode" = "blocked"; # block any other addons not listed below
