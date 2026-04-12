@@ -18,14 +18,6 @@
         "Snippets" = false;
         "Locked" = false;
       };
-      "Preferences" = {
-        "browser.translations.automaticallyPopup" = false;
-        "toolkit.scrollbox.verticalScrollDistance" = 5;
-        "general.smoothscroll.lines.durationMaxMs" = 600;
-        "general.smoothscroll.lines.durationMinMs" = 400;
-        "general.smoothscroll.pages.durationMaxMs" = 500;
-        "general.smoothscroll.currentVelocityWeighting" = 0;
-      };
       "ExtensionSettings" = {
         "*" = {
           "installation_mode" = "blocked"; # block any other addons not listed below
@@ -34,6 +26,19 @@
           "installation_mode" = "force_installed";
           "install_url" = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
         };
+      };
+    };
+    profiles."kanarus" = {
+      settings = {
+        "sidebar.revamp" = true;
+        "sidebar.verticalTabs" = true;
+        "browser.tabs.groups.enabled" = true;
+        "browser.translations.automaticallyPopup" = false;
+        "toolkit.scrollbox.verticalScrollDistance" = 5;
+        "general.smoothscroll.lines.durationMaxMs" = 600;
+        "general.smoothscroll.lines.durationMinMs" = 400;
+        "general.smoothscroll.pages.durationMaxMs" = 500;
+        "general.smoothscroll.currentVelocityWeighting" = 0;
       };
     };
   };
