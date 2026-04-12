@@ -8,7 +8,6 @@ resize-overlay = never
 link-url = false
 scrollbar = never
 
-shell-integration = none
 confirm-close-surface = false
 app-notifications = false
 
@@ -20,6 +19,8 @@ cursor-style = bar
 font-size = 15
 font-family = "UDEV Gothic 35NF"
 
+shell-integration = detect
+shell-integration-features = false
 working-directory = ~/nixos-configuration
 window-inherit-working-directory = true
 split-inherit-working-directory = true
