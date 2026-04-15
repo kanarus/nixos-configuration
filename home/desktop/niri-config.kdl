@@ -41,7 +41,7 @@ hotkey-overlay {
 spawn-at-startup "waybar"
 spawn-at-startup "swaybg" "-i" "/home/kanarus/.local/share/wallpaper/default.png" "-m" "fill"
 spawn-at-startup "swayidle" "-w" "before-sleep" "'swaylock --daemonize'"
-spawn-sh-at-startup "if (niri msg outputs | grep -q '(DP-1)'); then niri msg action move-workspace-to-monitor 'DP-1'; else :"
+spawn-sh-at-startup "if (niri msg outputs | grep -q '(DP-1)'); then niri msg action move-workspace-to-monitor 'DP-1'; else :; fi"
 
 binds {
 	Print            { screenshot-window; }
