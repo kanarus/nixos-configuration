@@ -13,14 +13,11 @@ input {
 }
 
 output "eDP-1" {}
-output "DP-1" {
-    focus-at-startup
-}
+output "DP-1" {}
 
 cursor {
     hide-after-inactive-ms 500
 }
-
 window-rule {
     open-fullscreen         false
     open-maximized          false
@@ -33,15 +30,18 @@ window-rule {
         active-color "#e2eaff"
     }
 }
-
+layout {
+    center-focused-column "never"
+}
 hotkey-overlay {
 	skip-at-startup
 	hide-not-bound
 }
+
 spawn-at-startup "waybar"
 spawn-at-startup "swaybg" "-i" "/home/kanarus/.local/share/wallpaper/default.png" "-m" "fill"
-spawn-at-startup "swayidle" "-w" "before-sleep" "swaylock --daemonize"
-spawn-sh-at-startup "if (niri msg outputs | grep -q '(DP-1)'); then niri msg action move-workspace-to-monitor 'DP-1'; else :; fi"
+spawn-at-startup "swayidle" "-w" "before-sleep" "bash /home/kanarus/nixos-configuration/home/desktop/sleepcontrol.sh 'pre'" "after-resume" "/home/kanarus/nixos-configuration/home/desktop/sleepcontrol.sh 'post'"
+spawn-at-startup "niri" "msg" "action" "move-workspace-to-monitor-next" // does nothing if not exists
 
 binds {
 	Print            { screenshot-window; }

@@ -125,7 +125,7 @@ in
             (outputOf HDMIMonitorName)
           ];
           exec = [
-            "niri msg action focus-monitor ${HDMIMonitorName}"
+            "niri msg action move-workspace-to-monitor ${HDMIMonitorName}"
           ];
         };
       }
