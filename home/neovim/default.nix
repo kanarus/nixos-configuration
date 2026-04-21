@@ -72,6 +72,8 @@ let
     haskell-language-server
     lean4
     typescript-language-server
+    clang-tools
+    tinymist
   ];
   nvimTreesitter = (pkgs.vimPlugins.nvim-treesitter.withPlugins (
     nt: (with nt; [
@@ -82,6 +84,8 @@ let
       bash
       typescript
       javascript
+      c
+      typst
     ]) ++ (with pkgs.tree-sitter-grammars; [
       tree-sitter-lean
     ])

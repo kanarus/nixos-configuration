@@ -40,6 +40,7 @@ vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
 vim.filetype.add({
   extension = {
     lean = "lean",
+    typ  = "typst",
   }
 })
 
@@ -190,9 +191,14 @@ require("lazy").setup({
         capabilities = require("blink.cmp").get_lsp_capabilities(),
       })
 
+      -- lsp servers for unsupported-by-default languages
       vim.lsp.config("lean", {
         cmd = { "lean", "--server" },
         filetypes = { "lean" },
+      })
+      vim.lsp.config("tinymist", {
+        cmd = { "tinymist" },
+        filetypes = { "typst" },
       })
 
       ---@type table<string, LanguageConfig>
@@ -205,6 +211,8 @@ require("lazy").setup({
         ["hls"]           = {tabtospace = 2},
         ["lean"]          = {tabtospace = 2},
         ["ts_ls"]         = {tabtospace = 2},
+        ["clangd"]        = {tabtospace = 4},
+        ["tinymist"]      = {tabtospace = 2},
       }
       local languageconfig_augroup = vim.api.nvim_create_augroup("LanguageConfig", { clear = true })
       for lspconfigname, _ in pairs(LspconfigName_to_LanguageConfig) do

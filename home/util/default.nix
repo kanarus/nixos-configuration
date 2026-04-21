@@ -4,5 +4,6 @@
     blueman
     zoom-us
     pavucontrol
+    evince
   ];
 }
