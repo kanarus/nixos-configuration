@@ -99,7 +99,6 @@ let
     cmp-buffer
     cmp-nvim-lsp
     cmp-nvim-lsp-signature-help
-    cmp-path
     gitsigns-nvim
     lualine-nvim
     (luasnip.overrideAttrs (_: { pluginName = "LuaSnip"; }))

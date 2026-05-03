@@ -1,7 +1,8 @@
-{ ... }:
+{ config, ... }:
 {
   programs.firefox = {
     enable = true;
+    configPath = "${config.xdg.configHome}/mozilla/firefox";
     policies = {
       "BlockAboutAddons" = true;   # block about:addons   (GUI addons manager)
       "BlockAboutConfig" = true;   # block about:config   (GUI config manager)

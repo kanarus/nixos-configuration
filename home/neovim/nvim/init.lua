@@ -68,7 +68,7 @@ require("lazy").setup({
     opts = {
       sources = {
         default = function()
-          local sources = { "path", "snippets" }
+          local sources = { "snippets" }
           if #(vim.lsp.get_clients({ bufnr = 0 })) > 0 then
             table.insert(sources, "lsp")
           else
