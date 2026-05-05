@@ -40,7 +40,15 @@ case "$1" in
         done
         sleep 1
         
-        echo "Running move-workspace-to-monitor-next"
-        niri msg action move-workspace-to-monitor-next
+        EXTERNAL_MONITOR=''
+        while [ -z "$EXTERNAL_MONITOR" ]; do
+            sleep 0.5
+            EXTERNAL_MONITOR=$(niri msg outputs | awk 'match($0, /^Output .* \((.+)\)$/, matched) {print matched[1]}' | grep -v 'eDP-1')
+        done
+        echo "Found external monitor: $EXTERNAL_MONITOR"
+        sleep 1
+
+        echo "Running move-workspace-to-monitor $EXTERNAL_MONITOR"
+        niri msg action move-workspace-to-monitor "$EXTERNAL_MONITOR"
     ;;
 esac
