@@ -40,7 +40,7 @@ hotkey-overlay {
 
 spawn-at-startup "waybar"
 spawn-at-startup "swaybg" "-i" "/home/kanarus/.local/share/wallpaper/default.png" "-m" "fill"
-spawn-at-startup "swayidle" "-w" "before-sleep" "bash /home/kanarus/nixos-configuration/home/desktop/sleepcontrol.sh 'pre'" "after-resume" "/home/kanarus/nixos-configuration/home/desktop/sleepcontrol.sh 'post'"
+spawn-at-startup "swayidle" "-w" "before-sleep" "bash /home/kanarus/nixos-configuration/home/desktop/sleepcontrol.sh 'pre'" "after-resume" "bash /home/kanarus/nixos-configuration/home/desktop/sleepcontrol.sh 'post'"
 spawn-at-startup "niri" "msg" "action" "move-workspace-to-monitor-next" // does nothing if not exists
 
 binds {
