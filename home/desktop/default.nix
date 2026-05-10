@@ -97,7 +97,7 @@ in
   services.kanshi =
     let
       builtinMonitorName = "eDP-1";
-      HDMIMonitorName = "DP-1";
+      HDMIMonitorName = "DP-3";
       outputOf = monitorName: {
         criteria = monitorName;
         status = "enable";
