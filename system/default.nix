@@ -1,7 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system. Help is available in the configuration.nix(5) man page, on
-# https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-
 { pkgs, ... }:
 
 {
@@ -11,19 +7,46 @@
   ];
 
   system.stateVersion = "25.11";
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   nixpkgs.config.allowUnfree = true;
 
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 14d";
+  };
+
+  services.tlp = {
+    enable = true;
+    # settings = {
+    #   WIFI_PWR_ON_AC = "off";
+    #   WIFI_PWR_ON_BAT = "off";
+    #   PCIE_ASPM_ON_AC = "default";
+    #   PCIE_ASPM_ON_BAT = "default";
+    # };
+  };
+
+  # boot.kernelParams = [ "pcie_aspm=off" ];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  # # 11n_disable=1  : disable any accelaration based on 802.11n or newer technologies
+  # # 11n_disable=8  : keep 802.11n itself but just disable tx aggregation
+  # # disable_11ax=1 : disable Wi-Fi 6 (11ax) and force 11ac or 11n
+  # # disable_11ac=1 : disable Wi-Fi 5 (11ac) and force 11n
+  # boot.extraModprobeConfig = ''
+  #   options iwlwifi swcrypto=1
+  #   options iwlwifi 11n_disable=8
+  #   options iwlwifi power_save=0
+  #   options iwlmvm power_scheme=1
+  # '';
 
   networking.hostName = "nixos";
   networking.networkmanager = {
     enable = true;
-    wifi = {
-      powersave = false;
-    };
+    # wifi = {
+    #   powersave = false;
+    # };
   };
 
   hardware.graphics.enable = true;
