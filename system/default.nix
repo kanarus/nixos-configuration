@@ -28,6 +28,7 @@
   };
 
   # boot.kernelParams = [ "pcie_aspm=off" ];
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   # # 11n_disable=1  : disable any accelaration based on 802.11n or newer technologies
@@ -52,8 +53,25 @@
     # };
   };
 
-  hardware.graphics.enable = true;
+  systemd.services = {
+    "router-arp-keepalive" = let
+      wifiInterfaceName = "wlan0";
+      routerIP = "100.64.1.1";
+      arpingIntervalSec = 2;
+    in {
+      description = "Keep router ARP cache alive to bypass Intel Wi-Fi GTK drop bug";
+      wants = [ "network-online.target" ];
+      after = [ "network-online.target" ];
+      wantedBy = [ "multi-user.target" ];
+      serviceConfig = {
+        Type = "simple";
+        Restart = "always";
+        ExecStart = "${pkgs.bash}/bin/bash -c 'while true; do ${pkgs.iputils}/bin/arping -q -c 1 -I ${wifiInterfaceName} ${routerIP}; sleep ${toString arpingIntervalSec}; done'";
+      };
+    };
+  };
 
+  hardware.graphics.enable = true;
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;
