@@ -15,6 +15,7 @@ input {
 output "eDP-1" {}
 output "DP-1" {}
 
+prefer-no-csd
 cursor {
     hide-after-inactive-ms 500
 }
