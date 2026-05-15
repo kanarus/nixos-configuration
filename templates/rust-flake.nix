@@ -23,19 +23,14 @@
 
       devShells.default =
         let
-          toolchain = pkgs.rust-bin.stable.latest.default.override {
+          rustToolchain = pkgs.rust-bin.stable.latest.default.override {
             extensions = [ "rust-src" ];
           };
         in
         pkgs.mkShell {
-          RUST_SRC_PATH = "${toolchain}/lib/rustlib/src/rust/library";
-          packages = with pkgs; [
-            toolchain
-            go-task
-            cargo-expand
-            nodejs
-            wrangler
-          ];
+          RUST_SRC_PATH = "${rustToolchain}/lib/rustlib/src/rust/library";
+          packages = [ rustToolchain ] ++ (with pkgs; [
+          ]);
         };
     };
   };
