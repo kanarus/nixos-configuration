@@ -72,7 +72,8 @@ require("lazy").setup({
           if #(vim.lsp.get_clients({ bufnr = 0 })) > 0 then
             table.insert(sources, "lsp")
           else
-            table.insert(sources, "buffer")
+            -- annoying to some extent nowadays...
+            -- table.insert(sources, "buffer")
           end
           return sources
    	    end,
