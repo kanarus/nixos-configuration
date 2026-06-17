@@ -14,33 +14,16 @@
   nix.gc = {
     automatic = true;
     dates = "weekly";
-    options = "--delete-older-than 14d";
+    options = "--delete-older-than +7";
   };
 
   services.tlp = {
     enable = true;
-    # settings = {
-    #   WIFI_PWR_ON_AC = "off";
-    #   WIFI_PWR_ON_BAT = "off";
-    #   PCIE_ASPM_ON_AC = "default";
-    #   PCIE_ASPM_ON_BAT = "default";
-    # };
   };
 
-  # boot.kernelParams = [ "pcie_aspm=off" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  # # 11n_disable=1  : disable any accelaration based on 802.11n or newer technologies
-  # # 11n_disable=8  : keep 802.11n itself but just disable tx aggregation
-  # # disable_11ax=1 : disable Wi-Fi 6 (11ax) and force 11ac or 11n
-  # # disable_11ac=1 : disable Wi-Fi 5 (11ac) and force 11n
-  # boot.extraModprobeConfig = ''
-  #   options iwlwifi swcrypto=1
-  #   options iwlwifi 11n_disable=8
-  #   options iwlwifi power_save=0
-  #   options iwlmvm power_scheme=1
-  # '';
 
   networking.hostName = "nixos";
   networking.networkmanager = {
@@ -48,9 +31,6 @@
     wifi = {
       backend = "iwd";
     };
-    # wifi = {
-    #   powersave = false;
-    # };
   };
 
   systemd.services = {
