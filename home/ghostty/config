@@ -21,7 +21,8 @@ font-family = "UDEV Gothic 35NF"
 
 shell-integration = detect
 shell-integration-features = false
-working-directory = ~/nixos-configuration
+
+working-directory = ~
 window-inherit-working-directory = true
 split-inherit-working-directory = true
 
