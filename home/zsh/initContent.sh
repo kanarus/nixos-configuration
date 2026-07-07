@@ -52,7 +52,7 @@ setopt PROMPT_SUBST
 export PS1='%F{153}[%n%F{111}@%m%F{153}:%~]$(maybe_git_branch)%f '
 
 # aliases
-alias la='ls -al'
+alias la='ls -alh'
 function merged () {
   to="${1:-main}"
   from=$(git branch --show-current)
