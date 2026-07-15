@@ -264,8 +264,7 @@ require("lazy").setup({
           lspconfigname = "tinymist",
         },
         {
-          filetypes = { "markdown" },
-          indentwidth = 2, -- override neovim's default FileType markdown
+          filetypes = { "text", "markdown" },
           wrap = true,
         },
       }
