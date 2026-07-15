@@ -82,7 +82,6 @@ local applyLanguageConfig = function(config)
       if config.wrap ~= nil then
         vim.opt_local.wrap = config.wrap
         vim.opt.linebreak = config.wrap
-        vim.opt.breakindent = config.wrap
       end
     end,
   })
@@ -94,7 +93,6 @@ vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.wrap = false
 vim.opt.linebreak = false
-vim.opt.breakindent = false
 
 require("lazy").setup({
   {
