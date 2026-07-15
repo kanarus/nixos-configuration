@@ -258,6 +258,7 @@ require("lazy").setup({
         },
         {
           filetypes = { "markdown" },
+          indentwidth = 2, -- override neovim's default FileType markdown
           wrap = true,
         },
       }
