@@ -25,6 +25,8 @@ vim.o.sidescroll = 1
 
 vim.keymap.set('n', '<Up>', 'gk', { silent = true })
 vim.keymap.set('n', '<Down>', 'gj', { silent = true })
+vim.keymap.set('i', '<Up>', '<C-O>gk', { silent = true })
+vim.keymap.set('i', '<Down>', '<C-O>gj', { silent = true })
 
 vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
   pattern = "*",
