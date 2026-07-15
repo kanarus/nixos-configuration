@@ -23,6 +23,9 @@ vim.o.scrolloff = 8
 vim.o.sidescrolloff = 16
 vim.o.sidescroll = 1
 
+vim.keymap.set('n', '<Up>', 'gk', { silent = true })
+vim.keymap.set('n', '<Down>', 'gj', { silent = true })
+
 vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
   pattern = "*",
   nested = true,
@@ -78,6 +81,8 @@ local applyLanguageConfig = function(config)
       end
       if config.wrap ~= nil then
         vim.opt_local.wrap = config.wrap
+        vim.opt.linebreak = config.wrap
+        vim.opt.breakindent = config.wrap
       end
     end,
   })
@@ -88,6 +93,8 @@ vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.wrap = false
+vim.opt.linebreak = false
+vim.opt.breakindent = false
 
 require("lazy").setup({
   {
