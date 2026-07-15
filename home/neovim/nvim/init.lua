@@ -5,17 +5,11 @@ vim.wo.signcolumn = "yes"
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
-vim.opt.expandtab = true
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
 vim.opt.smarttab = true
 vim.opt.autoindent = true
-vim.opt.wrap = false
 vim.opt.laststatus = 3
 vim.opt.cmdheight = 0
 vim.opt.showmode = false
-vim.opt.virtualedit:append("onemore")
 vim.opt.guicursor = "n-v:block,i-c-ci-ve:ver25,r-cr:hor20,o:hor50"
 
 vim.o.clipboard = "unnamedplus"
@@ -29,36 +23,71 @@ vim.o.scrolloff = 8
 vim.o.sidescrolloff = 16
 vim.o.sidescroll = 1
 
-vim.keymap.set("n", "<End>", "$l", { remap = true, silent = true })
-
 vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
   pattern = "*",
   nested = true,
   command = "silent! update",
 })
 
+-- extension-to-filetype mapping for unsupported-by-default languages
 vim.filetype.add({
   extension = {
     lean = "lean",
     typ  = "typst",
   }
 })
+-- lsp servers for unsupported-by-default languages
+vim.lsp.config("lean", {
+  cmd = { "lean", "--server" },
+  filetypes = { "lean" },
+})
+vim.lsp.config("tinymist", {
+  cmd = { "tinymist" },
+  filetypes = { "typst" },
+})
 
 ---@class LanguageConfig
----@field tabtospace integer|nil
+---@field filetypes string[]|nil
+---@field lspconfigname string|nil
+---@field tabtospace boolean|nil
+---@field indentwidth integer|nil
+---@field wrap boolean|nil
+
+local LanguageconfigAugroup = vim.api.nvim_create_augroup("LanguageConfig", { clear = true })
 
 ---@param config LanguageConfig
+--- NOTE: at least one of `filetypes` or `lspconfigname` MUST be non-nil.
 local applyLanguageConfig = function(config)
-  vim.opt_local.expandtab = true
-  vim.opt_local.tabstop = config.tabtospace
-  vim.opt_local.softtabstop = config.tabtospace
-  vim.opt_local.shiftwidth = config.tabtospace
+  if (not config.filetypes) and (not config.lspconfigname) then
+    return
+  end
+  if config.lspconfigname ~= nil then
+    vim.lsp.enable(config.lspconfigname)
+  end
+  vim.api.nvim_create_autocmd("FileType", {
+    group = LanguageconfigAugroup,
+    pattern = config.filetypes or vim.lsp.config[config.lspconfigname].filetypes,
+    callback = function()
+      if config.tabtospace ~= nil then
+        vim.opt_local.expandtab = config.tabtospace
+      end
+      if config.indentwidth ~= nil then
+        vim.opt_local.tabstop = config.indentwidth
+        vim.opt_local.softtabstop = config.indentwidth
+        vim.opt_local.shiftwidth = config.indentwidth
+      end
+      if config.wrap ~= nil then
+        vim.opt_local.wrap = config.wrap
+      end
+    end,
+  })
 end
-
--- apply default language config as the general fallback
-applyLanguageConfig({
-  tabtospace = 2,
-})
+-- global fallback language config
+vim.opt.expandtab = true
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.wrap = false
 
 require("lazy").setup({
   {
@@ -192,40 +221,48 @@ require("lazy").setup({
         capabilities = require("blink.cmp").get_lsp_capabilities(),
       })
 
-      -- lsp servers for unsupported-by-default languages
-      vim.lsp.config("lean", {
-        cmd = { "lean", "--server" },
-        filetypes = { "lean" },
-      })
-      vim.lsp.config("tinymist", {
-        cmd = { "tinymist" },
-        filetypes = { "typst" },
-      })
-
-      ---@type table<string, LanguageConfig>
-      LspconfigName_to_LanguageConfig = {
-        ["nixd"]          = {tabtospace = 2},
-        ["lua_ls"]        = {tabtospace = 2},
-        ["gopls"]         = {tabtospace = nil},
-        ["rust_analyzer"] = {tabtospace = 4},
-        ["bashls"]        = {tabtospace = 2},
-        ["hls"]           = {tabtospace = 2},
-        ["lean"]          = {tabtospace = 2},
-        ["ts_ls"]         = {tabtospace = 2},
-        ["clangd"]        = {tabtospace = 4},
-        ["tinymist"]      = {tabtospace = 2},
+      ---@type LanguageConfig[]
+      local languageconfigs = {
+        {
+          lspconfigname = "nixd",
+        },
+        {
+          lspconfigname = "lua_ls",
+        },
+        {
+          lspconfigname = "gopls",
+          tabtospace = false,
+        },
+        {
+          lspconfigname = "rust_analyzer",
+          indentwidth = 4,
+        },
+        {
+          lspconfigname = "bashls",
+        },
+        {
+          lspconfigname = "hls",
+        },
+        {
+          lspconfigname = "lean",
+        },
+        {
+          lspconfigname = "ts_ls",
+        },
+        {
+          lspconfigname = "clangd",
+          indentwidth = 4,
+        },
+        {
+          lspconfigname = "tinymist",
+        },
+        {
+          filetypes = { "markdown" },
+          wrap = true,
+        },
       }
-      local languageconfig_augroup = vim.api.nvim_create_augroup("LanguageConfig", { clear = true })
-      for lspconfigname, _ in pairs(LspconfigName_to_LanguageConfig) do
-        vim.lsp.enable(lspconfigname);
-        vim.api.nvim_create_autocmd("FileType", {
-          group = languageconfig_augroup,
-          pattern = vim.lsp.config[lspconfigname].filetypes,
-          callback = function() -- be careful of variables' scopes over a `callback`
-            local languageconfig = LspconfigName_to_LanguageConfig[lspconfigname]
-            applyLanguageConfig(languageconfig)
-          end,
-        })
+      for _, lc in ipairs(languageconfigs) do
+        applyLanguageConfig(lc)
       end
 
       vim.api.nvim_create_autocmd("LspAttach", {
@@ -241,7 +278,7 @@ require("lazy").setup({
           nmap("D",  vim.diagnostic.open_float, "open floating diagnostic message")
           nmap("rn", vim.lsp.buf.rename,        "[R]e[n]ame")
           nmap("gd", vim.lsp.buf.definition,    "[G]oto Definition")
-        end
+        end,
       })
     end
   },
@@ -251,7 +288,7 @@ require("lazy").setup({
     config = function()
       require("nvim-treesitter").setup()
       vim.api.nvim_create_autocmd("FileType", {
-        group = vim.api.nvim_create_augroup("vim-treesitter-start", {}),
+        group = vim.api.nvim_create_augroup("vim-treesitter-start", { clear = true }),
         callback = function()
           pcall(vim.treesitter.start)
         end
