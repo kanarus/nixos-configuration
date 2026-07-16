@@ -23,11 +23,6 @@ vim.o.scrolloff = 8
 vim.o.sidescrolloff = 16
 vim.o.sidescroll = 1
 
-vim.keymap.set('n', '<Up>', 'gk', { silent = true })
-vim.keymap.set('n', '<Down>', 'gj', { silent = true })
-vim.keymap.set('i', '<Up>', '<C-O>gk', { silent = true })
-vim.keymap.set('i', '<Down>', '<C-O>gj', { silent = true })
-
 vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
   pattern = "*",
   nested = true,
@@ -84,6 +79,10 @@ local applyLanguageConfig = function(config)
       if config.wrap ~= nil then
         vim.opt_local.wrap = config.wrap
         vim.opt.linebreak = config.wrap
+        vim.keymap.set('n', '<Up>', 'gk', { silent = true })
+        vim.keymap.set('n', '<Down>', 'gj', { silent = true })
+        vim.keymap.set('i', '<Up>', '<C-O>gk', { silent = true })
+        vim.keymap.set('i', '<Down>', '<C-O>gj', { silent = true })
       end
     end,
   })
