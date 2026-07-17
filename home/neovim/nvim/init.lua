@@ -78,11 +78,11 @@ local applyLanguageConfig = function(config)
       end
       if config.wrap ~= nil then
         vim.opt_local.wrap = config.wrap
-        vim.opt.linebreak = config.wrap
-        vim.keymap.set('n', '<Up>', 'gk', { silent = true })
-        vim.keymap.set('n', '<Down>', 'gj', { silent = true })
-        vim.keymap.set('i', '<Up>', '<C-O>gk', { silent = true })
-        vim.keymap.set('i', '<Down>', '<C-O>gj', { silent = true })
+        vim.opt_local.linebreak = config.wrap
+        vim.keymap.set('n', '<Up>', 'gk', { silent = true, buffer = true })
+        vim.keymap.set('n', '<Down>', 'gj', { silent = true, buffer = true })
+        vim.keymap.set('i', '<Up>', '<C-O>gk', { silent = true, buffer = true })
+        vim.keymap.set('i', '<Down>', '<C-O>gj', { silent = true, buffer = true })
       end
     end,
   })
