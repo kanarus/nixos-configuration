@@ -37,4 +37,11 @@
       };
     };
   };
+
+  home.packages = [
+    (pkgs.writeShellApplication {
+      name = "mozc-config";
+      text = "${pkgs.mozc-ut}/lib/mozc/mozc_tool --mode=config_dialog";
+    })
+  ];
 }

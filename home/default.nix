@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, username, ... }:
+{ username, ... }:
 {
   home.username = username;
   home.homeDirectory = "/home/${username}";
