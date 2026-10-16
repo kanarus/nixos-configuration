@@ -54,7 +54,7 @@
         "sidebar.revamp" = true;
         "sidebar.verticalTabs" = true;
         "browser.tabs.groups.enabled" = true;
-        "browser.translations.automaticallyPopup" = false;
+        # "browser.translations.automaticallyPopup" = false;
         "toolkit.scrollbox.verticalScrollDistance" = 5;
         "general.smoothscroll.lines.durationMaxMs" = 600;
         "general.smoothscroll.lines.durationMinMs" = 400;

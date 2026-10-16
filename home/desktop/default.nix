@@ -1,8 +1,8 @@
 { config, pkgs, ... }:
 let
   gtkTheme = {
-    package = pkgs.graphite-gtk-theme;
-    name = "Graphite-Dark";
+    package = pkgs.colloid-gtk-theme;
+    name = "Colloid-Dark";
   };
   gtkCursorTheme = {
     package = pkgs.phinger-cursors;
