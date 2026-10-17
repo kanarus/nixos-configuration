@@ -4,30 +4,34 @@ let
     package = pkgs.colloid-gtk-theme;
     name = "Colloid-Dark";
   };
+  gtkIconTheme = {
+    package = pkgs.colloid-icon-theme;
+    name = "Colloid";
+  };
   gtkCursorTheme = {
     package = pkgs.phinger-cursors;
     name = "phinger-cursors-light";
     size = 24;
   };
-  gtkIconTheme = {
-    # create:
-    # - snake_case symlink from each `fcitx-mozc*.svg`s
-    # - `fcitx_mozc_hiragana.svg` symlink from `fcitx-mozc.svg`
-    # for waybar's input method panel
-    package = pkgs.qogir-icon-theme.overrideAttrs (oldAttrs: {
-      preInstall = (oldAttrs.preInstall or "") + ''
-        for f in $(find Papirus* -type f -name "fcitx-mozc*.svg"); do
-          dir="$(dirname $f)"
-          base="$(basename $f)"
-          ln -sf "$base" "$dir/$(echo $base | tr '-' '_')"
-          if [ "$base" = "fcitx-mozc.svg" ]; then
-            ln -sf "$base" "$dir/fcitx_mozc_hiragana.svg"
-          fi
-        done
-      '';
-    });
-    name = "Qogir-Dark";
-  };
+  # gtkIconTheme = {
+  #   # create:
+  #   # - snake_case symlink from each `fcitx-mozc*.svg`s
+  #   # - `fcitx_mozc_hiragana.svg` symlink from `fcitx-mozc.svg`
+  #   # for waybar's input method panel
+  #   package = pkgs.qogir-icon-theme.overrideAttrs (oldAttrs: {
+  #     preInstall = (oldAttrs.preInstall or "") + ''
+  #       for f in $(find Papirus* -type f -name "fcitx-mozc*.svg"); do
+  #         dir="$(dirname $f)"
+  #         base="$(basename $f)"
+  #         ln -sf "$base" "$dir/$(echo $base | tr '-' '_')"
+  #         if [ "$base" = "fcitx-mozc.svg" ]; then
+  #           ln -sf "$base" "$dir/fcitx_mozc_hiragana.svg"
+  #         fi
+  #       done
+  #     '';
+  #   });
+  #   name = "Qogir-Dark";
+  # };
 in
 {
   home.packages = with pkgs; [
