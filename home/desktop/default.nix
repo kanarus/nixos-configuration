@@ -5,7 +5,18 @@ let
     name = "Colloid-Dark";
   };
   gtkIconTheme = {
-    package = pkgs.colloid-icon-theme;
+    package = pkgs.colloid-icon-theme.overrideAttrs (old: {
+      preInstall = (old.preInstall or "") + ''
+        for size_dir in src/status/*/; do
+          ln -sf "$size_dir/fcitx-mozc.svg" "$size_dir/fcitx_mozc_hiragana.svg"
+          for fcitx_mozc_icon in "$size_dir"/fcitx-mozc*.svg; do
+            kebab_case="$(basename $fcitx_mozc_icon)"
+            snake_case="$(echo $kabab_case | tr '-' '_')"
+            ln -sf "$size_dir/$kebab_case" "$size_dir/$snake_case"
+          done
+        done
+      '';
+    });
     name = "Colloid";
   };
   gtkCursorTheme = {
