@@ -4,46 +4,30 @@ let
     package = pkgs.colloid-gtk-theme;
     name = "Colloid-Dark";
   };
-  gtkIconTheme = {
-    package = pkgs.colloid-icon-theme.overrideAttrs (old: {
-      preInstall = (old.preInstall or "") + ''
-        for size_dir in src/status/*/; do
-          cd "$size_dir"
-          ln -sf "fcitx-mozc.svg" "fcitx_mozc_hiragana.svg"
-          for fcitx_mozc_icon in ./fcitx-mozc*.svg; do
-            kebab_case="$(basename $fcitx_mozc_icon)"
-            snake_case="$(echo $kabab_case | tr '-' '_')"
-            ln -sf "$kebab_case" "$snake_case"
-          done
-        done
-      '';
-    });
-    name = "Colloid";
-  };
   gtkCursorTheme = {
     package = pkgs.phinger-cursors;
     name = "phinger-cursors-light";
     size = 24;
   };
-  # gtkIconTheme = {
-  #   # create:
-  #   # - snake_case symlink from each `fcitx-mozc*.svg`s
-  #   # - `fcitx_mozc_hiragana.svg` symlink from `fcitx-mozc.svg`
-  #   # for waybar's input method panel
-  #   package = pkgs.qogir-icon-theme.overrideAttrs (oldAttrs: {
-  #     preInstall = (oldAttrs.preInstall or "") + ''
-  #       for f in $(find Papirus* -type f -name "fcitx-mozc*.svg"); do
-  #         dir="$(dirname $f)"
-  #         base="$(basename $f)"
-  #         ln -sf "$base" "$dir/$(echo $base | tr '-' '_')"
-  #         if [ "$base" = "fcitx-mozc.svg" ]; then
-  #           ln -sf "$base" "$dir/fcitx_mozc_hiragana.svg"
-  #         fi
-  #       done
-  #     '';
-  #   });
-  #   name = "Qogir-Dark";
-  # };
+  gtkIconTheme = {
+    package = pkgs.colloid-icon-theme.overrideAttrs (old: {
+      preInstall = (old.preInstall or "") + ''
+        for size in src/status/*/; do
+          for fcitx_mozc_icon in "$size"/fcitx-mozc*.svg; do
+            kebab_case="$(basename $fcitx_mozc_icon)"
+            snake_case="$(echo $kebab_case | tr '-' '_')"
+            cp "$size/$kebab_case" "$size/$snake_case"
+          done
+          if [ -f "$size/fcitx-mozc.svg" ]; then
+            cp "$size/fcitx-mozc.svg" "$size/fcitx_mozc_hiragana.svg"
+            cp "$size/fcitx-mozc.svg" "$size/org.fcitx.Fcitx5.fcitx_mozc_hiragana.svg"
+          fi
+        done
+      ''; # for latest fcitx5-mozc tray icon behavior (displayed on waybar in this system)
+      dontFixup = true; # skip symlink deletion (for avoid postFixupPhase hanging)
+    });
+    name = "Colloid-Dark";
+  };
 in
 {
   home.packages = with pkgs; [
