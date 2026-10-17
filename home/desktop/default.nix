@@ -13,15 +13,15 @@ let
     package = pkgs.colloid-icon-theme.overrideAttrs (old: {
       preInstall = (old.preInstall or "") + ''
         for size in src/status/*/; do
+          if [ -f "$size/fcitx-mozc.svg" ] && [ ! -e "$size/fcitx-mozc-hiragana.svg" ]; then
+            cp "$size/fcitx-mozc.svg" "$size/fcitx-mozc-hiragana.svg"
+          fi
           for fcitx_mozc_icon in "$size"/fcitx-mozc*.svg; do
             kebab_case="$(basename $fcitx_mozc_icon)"
             snake_case="$(echo $kebab_case | tr '-' '_')"
             cp "$size/$kebab_case" "$size/$snake_case"
+            cp "$size/$kebab_case" "$size/org.fcitx.Fcitx5.$snake_case"
           done
-          if [ -f "$size/fcitx-mozc.svg" ]; then
-            cp "$size/fcitx-mozc.svg" "$size/fcitx_mozc_hiragana.svg"
-            cp "$size/fcitx-mozc.svg" "$size/org.fcitx.Fcitx5.fcitx_mozc_hiragana.svg"
-          fi
         done
       ''; # for latest fcitx5-mozc tray icon behavior (displayed on waybar in this system)
       dontFixup = true; # skip symlink deletion (for avoid postFixupPhase hanging)
