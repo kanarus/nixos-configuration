@@ -53,7 +53,8 @@ abbreviations=(
   "com"  "git add . && git commit -m"
   "po"   "git push origin"
   "push" "git push"
-  "ed"   "echo 'use flake path:.' > .envrc && direnv allow"
+  "ed"   "echo 'use flake' > .envrc && direnv allow"
+  "edp"  "echo 'use flake path:.' > .envrc && direnv allow"
   "n"    "nvim ."
 )
 function expand_abbreviation() {
