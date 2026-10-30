@@ -46,6 +46,7 @@ vim.opt.laststatus = 3
 vim.opt.cmdheight = 0
 vim.opt.showmode = false
 vim.opt.guicursor = "n-v:block,i-c-ci-ve:ver25,r-cr:hor20,o:hor50"
+vim.opt.backupcopy = "yes"
 
 vim.o.clipboard = "unnamedplus"
 vim.o.completeopt = "menuone,noselect"
