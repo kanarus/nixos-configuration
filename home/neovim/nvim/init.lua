@@ -62,6 +62,8 @@ vim.o.sidescrolloff = 16
 
 vim.keymap.set("n", "<PageDown>", "10j", { silent = true })
 vim.keymap.set("n", "<PageUp>",   "10k", { silent = true })
+vim.keymap.set("i", "<PageDown>", string.rep("<Down>", 10), { silent = true })
+vim.keymap.set("i", "<PageUp>",   string.rep("<Up>",   10), { silent = true })
 vim.keymap.set("n", "<C-Right>", "w", { silent = true })
 vim.keymap.set("n", "<C-Left>",  "b", { silent = true })
 vim.keymap.set("i", "<C-BS>", "<C-w>", { silent = true })
