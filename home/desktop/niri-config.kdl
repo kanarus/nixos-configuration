@@ -52,13 +52,13 @@ binds {
 	Mod+B            { spawn "firefox"; }
 	Mod+Space        { toggle-overview; }
 	Mod+Q            { close-window; }
-	Mod+Left         { focus-column-left; }
-	Mod+Right        { focus-column-right; }
+	Mod+Left         { focus-column-or-monitor-left; }
+	Mod+Right        { focus-column-or-monitor-right; }
 	Mod+Up           { focus-window-or-workspace-up; }
 	Mod+Down         { focus-window-or-workspace-down; }
 	Mod+Return       { maximize-column; }
-	Mod+Alt+Left     { move-column-left; }
-	Mod+Alt+Right    { move-column-right; }
+	Mod+Alt+Left     { move-column-left-or-to-monitor-left; }
+	Mod+Alt+Right    { move-column-right-or-to-monitor-right; }
 	Mod+Alt+Up       { move-window-up-or-to-workspace-up; }
 	Mod+Alt+Down     { move-window-down-or-to-workspace-down; }
 	Ctrl+Shift+Left  { move-workspace-to-monitor-left; }
