@@ -5,12 +5,6 @@
 
   programs.git = {
     enable = true;
-    ignores = [
-      ".direnv/"
-      ".envrc"
-      "flake.nix"
-      "flake.lock"
-    ];
     settings = {
       user = {
         name = "kanarus";
