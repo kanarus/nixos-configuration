@@ -6,6 +6,7 @@ window-padding-balance = true
 window-save-state = never
 resize-overlay = never
 link-url = false
+link-previews = false
 scrollbar = never
 
 confirm-close-surface = false
