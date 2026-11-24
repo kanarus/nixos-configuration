@@ -450,6 +450,7 @@ require("lazy").setup({
       require("mini.icons").setup({})
       require("oil").setup({
         skip_confirm_for_simple_edits = true,
+        watch_for_changes = true,
         view_options = {
           -- show hidden files/directories, while hide `..`
           show_hidden = true,
