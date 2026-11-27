@@ -35,6 +35,13 @@
           "url" = "https://student.iimc.kyoto-u.ac.jp";
         }
       ];
+      "PopupBlocking" = {
+        "Default" = false;
+        "Locked" = true;
+        "Allow" = [
+          "https://lms.gakusei.kyoto-u.ac.jp/"
+        ];
+      };
       "ExtensionSettings" = {
         "*" = {
           "installation_mode" = "blocked"; # block any other addons not listed below
